@@ -1,0 +1,23 @@
+:host {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.left-toolbar {
+  flex: 0 0 300px;
+}
+
+.right-toolbar {
+  flex: 0 0 300px;
+}
+
+.paper-container {
+  flex: 1 1 auto;
+  justify-content: center;
+  align-content: center;
+  overflow: auto;
+}
+
+.paper-view /deep/ {
+  min-width: 1024px;
+}

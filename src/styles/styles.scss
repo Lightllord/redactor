@@ -1,0 +1,42 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue Light","Helvetica Neue" ,Helvetica, Arial, "Lucida Grande" ,sans-serif;;
+  margin: 0;
+}
+
+.full-height {
+  height: 100%;
+  &-f {
+    min-height: 0;
+  }
+  &-all {
+    height: 100vh;
+  }
+}
+
+.full-width {
+  width: 100%;
+  &-f {
+    min-width: 0;
+  }
+}
+
+.d-flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.d-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.f-stretching {
+  flex: 1 1 auto;
+  min-height: 0;
+}
