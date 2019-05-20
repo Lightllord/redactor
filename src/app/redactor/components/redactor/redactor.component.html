@@ -1,7 +1,21 @@
 <div class="full-height d-flex-row">
   <div class="left-toolbar full-height d-flex-column">
-    <h3>Блоки</h3>
-    <div class="f-stretching">)</div>
+    <mat-card>
+      <mat-card-title>
+        Блоки
+      </mat-card-title>
+      <mat-card-content>
+        <button mat-stroked-button class="toolbar-wide-button vokzal" (click)="addBlock(1)">
+          + Вокзал
+        </button>
+        <button mat-stroked-button class="toolbar-wide-button postavshik" (click)="addBlock(2)">
+          + Поставщик
+        </button>
+        <button mat-stroked-button class="toolbar-wide-button aeroport" (click)="addBlock(3)">
+          + Аэропорт
+        </button>
+      </mat-card-content>
+    </mat-card>
   </div>
   <div class="paper-container full-height d-flex-row">
     <div class="paper-view" #paperView></div>

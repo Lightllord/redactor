@@ -20,4 +20,22 @@
 
 .paper-view /deep/ {
   min-width: 1024px;
+  min-height: 800px;
+}
+
+.toolbar-wide-button {
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.vokzal {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.postavshik {
+  background-color: rgba(255, 0, 0, 0.35);
+}
+
+.aeroport {
+  background-color: rgba(0, 0, 255, 0.35);
 }
