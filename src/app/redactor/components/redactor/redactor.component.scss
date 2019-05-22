@@ -8,7 +8,7 @@
 }
 
 .right-toolbar {
-  flex: 0 0 300px;
+  flex: 0 0 450px;
 }
 
 .paper-container {
@@ -21,11 +21,12 @@
 .paper-view /deep/ {
   min-width: 1024px;
   min-height: 800px;
+  flex: 0 0 auto;
 }
 
 .toolbar-wide-button {
   width: 100%;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .vokzal {
@@ -38,4 +39,16 @@
 
 .aeroport {
   background-color: rgba(0, 0, 255, 0.35);
+}
+
+.port {
+  background-color: rgba(0, 255, 255, 0.35);
+}
+
+.posrednik {
+  background-color: rgba(255, 0, 255, 0.35);
+}
+
+.potrebitel {
+  background-color: rgba(255, 255, 0, 0.35);
 }

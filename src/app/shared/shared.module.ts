@@ -2,6 +2,7 @@ import {ModuleWithProviders, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule, MatCardModule} from '@angular/material';
+import {BlocksService} from './services/blocks.service';
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: []
+      providers: [BlocksService]
     };
   }
 }

@@ -14,13 +14,26 @@
         <button mat-stroked-button class="toolbar-wide-button aeroport" (click)="addBlock(3)">
           + Аэропорт
         </button>
+        <button mat-stroked-button class="toolbar-wide-button port" (click)="addBlock(4)">
+          + Порт
+        </button>
+        <button mat-stroked-button class="toolbar-wide-button posrednik" (click)="addBlock(5)">
+          + Посредник
+        </button>
+        <button mat-stroked-button class="toolbar-wide-button potrebitel" (click)="addBlock(6)">
+          + Потребитель
+        </button>
       </mat-card-content>
+      <mat-card-footer class="d-flex-row justify-content-end">
+        <button mat-button><i class="material-icons" (click)="save()">save</i></button>
+      </mat-card-footer>
     </mat-card>
   </div>
   <div class="paper-container full-height d-flex-row">
     <div class="paper-view" #paperView></div>
   </div>
+  <!--<div class="right-toolbar full-height" *ngIf="selectedBlock || selectedLink">  -->
   <div class="right-toolbar full-height">
-
+    <app-block-info *ngIf="selectedBlock"></app-block-info>
   </div>
 </div>

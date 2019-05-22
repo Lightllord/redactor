@@ -27,8 +27,12 @@ body {
 }
 
 .d-flex-row {
-  display: flex;
+  display: flex !important;
   flex-direction: row;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
 }
 
 .d-flex-column {

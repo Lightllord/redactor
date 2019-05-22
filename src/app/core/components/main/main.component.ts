@@ -12,7 +12,7 @@ export class MainComponent implements OnInit {
       path: ['/redactor']
     },
     {
-      label: 'Что-то',
+      label: 'Таблица',
       path: ['/smth']
     }
   ];
