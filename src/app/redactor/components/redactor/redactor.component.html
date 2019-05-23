@@ -32,8 +32,7 @@
   <div class="paper-container full-height d-flex-row">
     <div class="paper-view" #paperView></div>
   </div>
-  <!--<div class="right-toolbar full-height" *ngIf="selectedBlock || selectedLink">  -->
   <div class="right-toolbar full-height">
-    <app-block-info *ngIf="selectedBlock" [block]="selectedBlock"></app-block-info>
+    <app-block-info *ngIf="selectedBlock" [block]="selectedBlock" (blockChanged)="blockChange($event)"></app-block-info>
   </div>
 </div>

@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import * as joint from 'jointjs';
+import {dia} from 'jointjs';
+import LinkView = dia.LinkView;
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  constructor() {
+    let shapes: any = joint.shapes;
+  }
+
   title = 'redactor';
 }

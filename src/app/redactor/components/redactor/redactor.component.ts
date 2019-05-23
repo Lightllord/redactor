@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 import * as joint from 'jointjs';
 import {dia} from 'jointjs';
 import LinkView = dia.LinkView;
@@ -11,7 +11,7 @@ import {BlocksService, IBlock, ILink} from '../../../shared/services/blocks.serv
 })
 export class RedactorComponent implements AfterViewInit, OnInit {
 
-  constructor(private bs: BlocksService) {
+  constructor(private bs: BlocksService, private renderer: Renderer2) {
   }
 
   graph: any;
@@ -25,25 +25,28 @@ export class RedactorComponent implements AfterViewInit, OnInit {
   links: ILink[] = [];
 
   static attrByClassId(block) {
+    block.cell.resize(115, 40);
     if (block.classId === 1) {
       block.cell.attr({
         body: {
           fill: 'rgba(0,0,0,0.35)'
         },
         label: {
-          text: 'Вокзал',
+          text: 'Вокзал - ' + block.id,
           fill: 'black'
         }
       });
     }
     if (block.classId === 2) {
+      block.cell.resize(115, 100);
       block.cell.attr({
         body: {
-          fill: 'rgba(255,0,0,0.35)'
+          fill: 'rgba(255,0,0,0.35)',
         },
         label: {
-          text: 'Поставщик',
-          fill: 'black'
+          text: 'Поставщик - ' + block.id,
+          fill: 'black',
+          transform: 'matrix(1, 0, 0, 1, 0, -30)'
         }
       });
     }
@@ -53,7 +56,7 @@ export class RedactorComponent implements AfterViewInit, OnInit {
           fill: 'rgba(0,0,255,0.35)'
         },
         label: {
-          text: 'Аэропорт',
+          text: 'Аэропорт - ' + block.id,
           fill: 'black'
         }
       });
@@ -64,7 +67,7 @@ export class RedactorComponent implements AfterViewInit, OnInit {
           fill: 'rgba(0,255,255,0.35)'
         },
         label: {
-          text: 'Порт',
+          text: 'Порт - ' + block.id,
           fill: 'black'
         }
       });
@@ -75,18 +78,19 @@ export class RedactorComponent implements AfterViewInit, OnInit {
           fill: 'rgba(255,0,255,0.35)'
         },
         label: {
-          text: 'Посредник',
+          text: 'Посредник - ' + block.id,
           fill: 'black'
         }
       });
     }
     if (block.classId === 6) {
+      block.cell.resize(115, 100);
       block.cell.attr({
         body: {
           fill: 'rgba(255,255,0,0.35)'
         },
         label: {
-          text: 'Потребитель',
+          text: 'Потребитель - ' + block.id,
           fill: 'black'
         }
       });
@@ -214,7 +218,6 @@ export class RedactorComponent implements AfterViewInit, OnInit {
   processBlock(block) {
     block.cell = new joint.shapes.standard.Rectangle();
     block.cell.position(block.x, block.y);
-    block.cell.resize(105, 40);
     RedactorComponent.attrByClassId(block);
     this.graph.addCell(block.cell);
   }
@@ -334,6 +337,25 @@ export class RedactorComponent implements AfterViewInit, OnInit {
   }
 
   save() {
+    this.graph.clear();
     this.bs.save(this.blocks, this.links);
+    this.blocks = this.bs.blocks;
+    this.links = this.bs.links;
+    this.processAllBlocks();
+    this.processAllLinks();
+  }
+
+  blockChange(e) {
+    if (e.classId === 2) {
+      this.addGoodsOutTable(e);
+    }
+  }
+
+  addGoodsOutTable(b: IBlock) {
+    if (b.info.goodsOut) {
+      let linkView = this.paper.findViewByModel(b.cell);
+      console.log(linkView);
+      console.log(linkView.el.getTotalLength());
+    }
   }
 }

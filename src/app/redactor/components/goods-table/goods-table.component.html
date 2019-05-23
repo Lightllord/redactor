@@ -19,7 +19,7 @@
 </table>
 
 
-<form class="" *ngIf="!selectedRow">
+<div class="" *ngIf="!selectedRow">
   <mat-form-field class="full-width">
     <input matInput placeholder="Наименование" name="name" [(ngModel)]="name">
   </mat-form-field>
@@ -31,9 +31,9 @@
   <div class="d-flex-row justify-content-end">
     <button mat-button (click)="add()">Добавить</button>
   </div>
-</form>
+</div>
 
-<form class="" *ngIf="selectedRow">
+<div class="" *ngIf="selectedRow">
   <mat-form-field class="full-width">
     <input matInput placeholder="Наименование" name="name" [(ngModel)]="name">
   </mat-form-field>
@@ -45,4 +45,4 @@
   <div class="d-flex-row justify-content-end">
     <button mat-button (click)="change()">Изменить</button>
   </div>
-</form>
+</div>

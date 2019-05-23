@@ -1,7 +1,7 @@
 <div class="full-height" *ngIf="block">
   <mat-card class="full-height d-flex-column">
     <mat-card-title>
-      <ng-container [ngSwitch]="block.id">
+      <ng-container [ngSwitch]="block.classId">
         <ng-container *ngSwitchCase="1">Вокзал</ng-container>
         <ng-container *ngSwitchCase="2">Поставщик</ng-container>
         <ng-container *ngSwitchCase="3">Аэропорт</ng-container>
@@ -31,7 +31,7 @@
     <mat-card-content *ngIf="block.classId === 1 || block.classId === 3 || block.classId === 4"
                       class="card-content f-stretching d-flex-column">
       <div class="title">Контейнеры</div>
-      <form class="" [formGroup]="formGroup">
+      <div class="" [formGroup]="formGroup">
         <mat-form-field class="full-width">
           <input matInput placeholder="Количество" name="Количество" formControlName="containerCount">
         </mat-form-field>
@@ -41,7 +41,7 @@
         <mat-form-field class="full-width">
           <input matInput placeholder="Вес" name="Вес" formControlName="containerWeight">
         </mat-form-field>
-      </form>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
