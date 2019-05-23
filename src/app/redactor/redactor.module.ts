@@ -4,9 +4,10 @@ import {RedactorComponent} from './components/redactor/redactor.component';
 import {RedactorRoutingModule} from './redactor-routing.module';
 import {SharedModule} from '../shared/shared.module';
 import { BlockInfoComponent } from './components/block-info/block-info.component';
+import { GoodsTableComponent } from './components/goods-table/goods-table.component';
 
 @NgModule({
-  declarations: [RedactorComponent, BlockInfoComponent],
+  declarations: [RedactorComponent, BlockInfoComponent, GoodsTableComponent],
   imports: [
     CommonModule,
     RedactorRoutingModule,

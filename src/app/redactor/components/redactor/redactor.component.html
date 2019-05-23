@@ -34,6 +34,6 @@
   </div>
   <!--<div class="right-toolbar full-height" *ngIf="selectedBlock || selectedLink">  -->
   <div class="right-toolbar full-height">
-    <app-block-info *ngIf="selectedBlock"></app-block-info>
+    <app-block-info *ngIf="selectedBlock" [block]="selectedBlock"></app-block-info>
   </div>
 </div>

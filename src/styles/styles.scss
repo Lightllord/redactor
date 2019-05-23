@@ -28,16 +28,16 @@ body {
 
 .d-flex-row {
   display: flex !important;
-  flex-direction: row;
+  flex-direction: row !important;
 }
 
 .justify-content-end {
-  justify-content: flex-end;
+  justify-content: flex-end !important;
 }
 
 .d-flex-column {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .f-stretching {
