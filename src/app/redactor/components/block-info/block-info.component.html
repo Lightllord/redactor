@@ -1,3 +1,47 @@
-<div class="full-height">
-
+<div class="full-height" *ngIf="block">
+  <mat-card class="full-height d-flex-column">
+    <mat-card-title>
+      <ng-container [ngSwitch]="block.id">
+        <ng-container *ngSwitchCase="1">Вокзал</ng-container>
+        <ng-container *ngSwitchCase="2">Поставщик</ng-container>
+        <ng-container *ngSwitchCase="3">Аэропорт</ng-container>
+        <ng-container *ngSwitchCase="4">Порт</ng-container>
+        <ng-container *ngSwitchCase="5">Посрденик</ng-container>
+        <ng-container *ngSwitchCase="6">Потребитель</ng-container>
+      </ng-container>
+    </mat-card-title>
+    <mat-card-content *ngIf="block.classId === 2" class="card-content f-stretching d-flex-column">
+      <div class="title">Товары на продажу</div>
+      <app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsOutChanges($event)"
+                       class="f-stretching"></app-goods-table>
+    </mat-card-content>
+    <mat-card-content *ngIf="block.classId === 6" class="card-content f-stretching d-flex-column">
+      <div class="title">Товары на заказ</div>
+      <app-goods-table [source]="block.info.goodsIn" (dataChanged)="goodsInChanges($event)"
+                       class="f-stretching"></app-goods-table>
+    </mat-card-content>
+    <mat-card-content *ngIf="block.classId === 5" class="card-content f-stretching d-flex-column">
+      <div class="title">Товары на заказ</div>
+      <app-goods-table [source]="block.info.goodsIn" (dataChanged)="goodsInChanges($event)"
+                       class="f-stretching"></app-goods-table>
+      <div class="title">Товары на продажу</div>
+      <app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsOutChanges($event)"
+                       class="f-stretching"></app-goods-table>
+    </mat-card-content>
+    <mat-card-content *ngIf="block.classId === 1 || block.classId === 3 || block.classId === 4"
+                      class="card-content f-stretching d-flex-column">
+      <div class="title">Контейнеры</div>
+      <form class="" [formGroup]="formGroup">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Количество" name="Количество" formControlName="containerCount">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Габариты" name="Габариты" formControlName="containerVal">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Вес" name="Вес" formControlName="containerWeight">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>
