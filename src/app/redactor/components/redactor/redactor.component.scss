@@ -52,3 +52,38 @@
 .potrebitel {
   background-color: rgba(255, 255, 0, 0.35);
 }
+
+.goods-one {
+  width: 115px;
+  height: 58px;
+  padding: 2px;
+  //z-index: -1;
+  font-size: 11px;
+  position: absolute;
+  overflow-y: auto;
+  .row {
+    border-top: 1px dotted black;
+  }
+}
+
+.goods-two {
+  width: 230px;
+  height: 58px;
+  font-size: 11px;
+  //z-index: -1;
+  position: absolute;
+  display: inline-flex;
+  .left {
+    width: 50%;
+    padding: 2px;
+    height: 100%;
+  }
+  .right {
+    width: 50%;
+    padding: 2px;
+    height: 100%;
+  }
+  .row {
+    border-top: 1px dotted black;
+  }
+}

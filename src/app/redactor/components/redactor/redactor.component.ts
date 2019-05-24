@@ -25,7 +25,7 @@ export class RedactorComponent implements AfterViewInit, OnInit {
   links: ILink[] = [];
 
   static attrByClassId(block) {
-    block.cell.resize(115, 40);
+    block.cell.resize(115, 47);
     if (block.classId === 1) {
       block.cell.attr({
         body: {
@@ -38,7 +38,7 @@ export class RedactorComponent implements AfterViewInit, OnInit {
       });
     }
     if (block.classId === 2) {
-      block.cell.resize(115, 100);
+      block.cell.resize(115, 88);
       block.cell.attr({
         body: {
           fill: 'rgba(255,0,0,0.35)',
@@ -46,7 +46,7 @@ export class RedactorComponent implements AfterViewInit, OnInit {
         label: {
           text: 'Поставщик - ' + block.id,
           fill: 'black',
-          transform: 'matrix(1, 0, 0, 1, 0, -30)'
+          transform: 'matrix(1, 0, 0, 1, 0, -25)'
         }
       });
     }
@@ -73,25 +73,28 @@ export class RedactorComponent implements AfterViewInit, OnInit {
       });
     }
     if (block.classId === 5) {
+      block.cell.resize(230, 88);
       block.cell.attr({
         body: {
           fill: 'rgba(255,0,255,0.35)'
         },
         label: {
           text: 'Посредник - ' + block.id,
-          fill: 'black'
+          fill: 'black',
+          transform: 'matrix(1, 0, 0, 1, 0, -25)'
         }
       });
     }
     if (block.classId === 6) {
-      block.cell.resize(115, 100);
+      block.cell.resize(115, 88);
       block.cell.attr({
         body: {
           fill: 'rgba(255,255,0,0.35)'
         },
         label: {
           text: 'Потребитель - ' + block.id,
-          fill: 'black'
+          fill: 'black',
+          transform: 'matrix(1, 0, 0, 1, 0, -25)'
         }
       });
     }
@@ -104,7 +107,7 @@ export class RedactorComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     // создаем граф и лист для него
-    this.graph = new joint.dia.Graph;
+    this.graph = new joint.dia.Graph();
     this.paper = new joint.dia.Paper({
       el: this.paperView.nativeElement,
       model: this.graph,
@@ -138,6 +141,15 @@ export class RedactorComponent implements AfterViewInit, OnInit {
       this.links.forEach(l => {
         this.paper.findViewByModel(l.cell).update();
       });
+    });
+    // изменяем позицbb
+    this.graph.on('change:position', (element, position) => {
+      let blck = this.blocks.find(b => b.cell === element);
+      blck.x = position.x;
+      blck.y = position.y;
+      if (blck.html) {
+        this.changePosition(blck);
+      }
     });
     this.linking();
     this.deleting();
@@ -209,6 +221,9 @@ export class RedactorComponent implements AfterViewInit, OnInit {
           deletingLinks.forEach(l => l.cell.remove());
           let fbi = this.blocks.findIndex(b => b === fb);
           this.blocks.splice(fbi, 1);
+          if (fb.html) {
+            this.renderer.removeChild(this.paperView, fb.html);
+          }
           fb.cell.remove();
         }
       }
@@ -226,6 +241,16 @@ export class RedactorComponent implements AfterViewInit, OnInit {
     if (this.blocks && this.blocks.length) {
       this.blocks.forEach(b => {
         this.processBlock(b);
+        if (b.info && b.info.goodsIn && b.info.goodsOut) {
+          this.addGoodAllTable(b);
+          return;
+        }
+        if (b.info && b.info.goodsOut) {
+          this.addGoodsOutTable(b);
+        }
+        if (b.info && b.info.goodsIn) {
+          this.addGoodInTable(b);
+        }
       });
     }
   }
@@ -259,6 +284,9 @@ export class RedactorComponent implements AfterViewInit, OnInit {
       r: 2, // radius of the circle
       cx: 1 // move the centre of the circle 5 pixels from the end of the path
     });
+    if (!link.info || !link.info.type) {
+      link.info = {type: 'Земля'};
+    }
     this.graph.addCell(link.cell);
   }
 
@@ -346,16 +374,99 @@ export class RedactorComponent implements AfterViewInit, OnInit {
   }
 
   blockChange(e) {
+    if (e.html) {
+      this.renderer.removeChild(this.paperView.nativeElement, e.html);
+      e.html = null;
+    }
     if (e.classId === 2) {
       this.addGoodsOutTable(e);
+    }
+    if (e.classId === 6) {
+      this.addGoodInTable(e);
+    }
+    if (e.classId === 5) {
+      this.addGoodAllTable(e);
     }
   }
 
   addGoodsOutTable(b: IBlock) {
-    if (b.info.goodsOut) {
-      let linkView = this.paper.findViewByModel(b.cell);
-      console.log(linkView);
-      console.log(linkView.el.getTotalLength());
+    if (!b.html && b.info.goodsOut) {
+      let data = this.renderer.createElement('div');
+      this.renderer.addClass(data, 'goods-one');
+      this.renderer.setStyle(data, 'left', `${b.x}px`);
+      this.renderer.setStyle(data, 'top', `${b.y + 30}px`);
+      this.renderer.setAttribute(data, 'id', `back${b.id}`);
+      b.info.goodsOut.forEach(g => {
+        let row = this.renderer.createElement('div');
+        this.renderer.appendChild(data, row);
+        this.renderer.addClass(row, 'row');
+        const text = this.renderer.createText(`${g.name} - ${g.count}`);
+        this.renderer.appendChild(row, text);
+      });
+      b.html = data;
+      this.renderer.appendChild(this.paperView.nativeElement, data);
+    }
+  }
+
+  addGoodInTable(b: IBlock) {
+    if (!b.html && b.info.goodsIn) {
+      let data = this.renderer.createElement('div');
+      this.renderer.addClass(data, 'goods-one');
+      this.renderer.setStyle(data, 'left', `${b.x}px`);
+      this.renderer.setStyle(data, 'top', `${b.y + 30}px`);
+      this.renderer.setAttribute(data, 'id', `back${b.id}`);
+      b.info.goodsIn.forEach(g => {
+        let row = this.renderer.createElement('div');
+        this.renderer.appendChild(data, row);
+        this.renderer.addClass(row, 'row');
+        const text = this.renderer.createText(`${g.name} - ${g.count}`);
+        this.renderer.appendChild(row, text);
+      });
+      b.html = data;
+      this.renderer.appendChild(this.paperView.nativeElement, data);
+    }
+  }
+
+  addGoodAllTable(b: IBlock) {
+    if (!b.html && (b.info.goodsIn || b.info.goodsOut)) {
+      let data = this.renderer.createElement('div');
+      this.renderer.addClass(data, 'goods-two');
+      this.renderer.setStyle(data, 'left', `${b.x}px`);
+      this.renderer.setStyle(data, 'top', `${b.y + 30}px`);
+      this.renderer.setAttribute(data, 'id', `back${b.id}`);
+      let left = this.renderer.createElement('div');
+      this.renderer.addClass(left, 'left');
+      let right = this.renderer.createElement('div');
+      this.renderer.addClass(right, 'right');
+      this.renderer.appendChild(data, left);
+      this.renderer.appendChild(data, right);
+      if (b.info.goodsIn) {
+        b.info.goodsIn.forEach(g => {
+          let row = this.renderer.createElement('div');
+          this.renderer.appendChild(left, row);
+          this.renderer.addClass(row, 'row');
+          const text = this.renderer.createText(`${g.name} - ${g.count}`);
+          this.renderer.appendChild(left, text);
+        });
+      }
+      if (b.info.goodsOut) {
+        b.info.goodsOut.forEach(g => {
+          let row = this.renderer.createElement('div');
+          this.renderer.appendChild(right, row);
+          this.renderer.addClass(row, 'row');
+          const text = this.renderer.createText(`${g.name} - ${g.count}`);
+          this.renderer.appendChild(right, text);
+        });
+      }
+      b.html = data;
+      this.renderer.appendChild(this.paperView.nativeElement, data);
+    }
+  }
+
+  changePosition(b: IBlock) {
+    if (b.classId === 2 || b.classId === 5 || b.classId === 6) {
+      this.renderer.setStyle(b.html, 'left', `${b.x}px`);
+      this.renderer.setStyle(b.html, 'top', `${b.y + 30}px`);
     }
   }
 }

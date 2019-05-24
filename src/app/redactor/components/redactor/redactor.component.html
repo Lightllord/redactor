@@ -5,11 +5,11 @@
         Блоки
       </mat-card-title>
       <mat-card-content>
-        <button mat-stroked-button class="toolbar-wide-button vokzal" (click)="addBlock(1)">
-          + Вокзал
-        </button>
         <button mat-stroked-button class="toolbar-wide-button postavshik" (click)="addBlock(2)">
           + Поставщик
+        </button>
+        <button mat-stroked-button class="toolbar-wide-button vokzal" (click)="addBlock(1)">
+          + Вокзал
         </button>
         <button mat-stroked-button class="toolbar-wide-button aeroport" (click)="addBlock(3)">
           + Аэропорт
@@ -34,5 +34,6 @@
   </div>
   <div class="right-toolbar full-height">
     <app-block-info *ngIf="selectedBlock" [block]="selectedBlock" (blockChanged)="blockChange($event)"></app-block-info>
+    <app-link-info *ngIf="selectedLink" [link]="selectedLink"></app-link-info>
   </div>
 </div>

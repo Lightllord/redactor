@@ -1,0 +1,23 @@
+<div class="full-height" *ngIf="link">
+  <mat-card class="full-height d-flex-column">
+    <mat-card-title>Путь - {{link.id}}</mat-card-title>
+    <mat-card-content class="card-content f-stretching d-flex-column">
+      <div class="" [formGroup]="form">
+        <mat-form-field class="full-width">
+          <mat-label>Тип</mat-label>
+          <mat-select formControlName="type">
+            <mat-option *ngFor="let type of types" [value]="type">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--<mat-form-field class="full-width">-->
+          <!--<input matInput placeholder="Тип" name="Тип" formControlName="type">-->
+        <!--</mat-form-field>-->
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Расстояние" name="Расстояние" formControlName="path">
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
