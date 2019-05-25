@@ -1,23 +1,56 @@
-<div class="full-height" *ngIf="link">
-  <mat-card class="full-height d-flex-column">
-    <mat-card-title>Путь - {{link.id}}</mat-card-title>
-    <mat-card-content class="card-content f-stretching d-flex-column">
-      <div class="" [formGroup]="form">
-        <mat-form-field class="full-width">
-          <mat-label>Тип</mat-label>
-          <mat-select formControlName="type">
-            <mat-option *ngFor="let type of types" [value]="type">
-              {{type}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <!--<mat-form-field class="full-width">-->
-          <!--<input matInput placeholder="Тип" name="Тип" formControlName="type">-->
-        <!--</mat-form-field>-->
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Расстояние" name="Расстояние" formControlName="path">
-        </mat-form-field>
-      </div>
+<div class="full-height d-flex-column justify-content-between" *ngIf="link">
+  <mat-card class="list d-flex-column">
+    <mat-card-title>Пути ({{link.id}})</mat-card-title>
+    <mat-card-content class="card-cont">
+      <mat-card class="row" (click)="select(p)" *ngFor="let p of link.info.paths; let ind = index">
+        <mat-card-header class="d-flex-row justify-content-between">
+          <mat-card-title>Путь {{ind + 1}}</mat-card-title>
+          <button mat-button (click)="delet(ind)"><i class="material-icons">delete</i></button>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item><b style="padding-right: 7px;">Тип:</b>{{p.type}}</mat-list-item>
+            <mat-list-item *ngIf="p.path"><b style="padding-right: 7px;">Расстояние (км): </b>{{p.path}}
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
     </mat-card-content>
   </mat-card>
+  <div class="adding" *ngIf="selectedRow">
+    <mat-form-field class="full-width">
+      <mat-label>Тип</mat-label>
+      <mat-select [(ngModel)]="type" placeholder="Тип" name="Тип">
+        <mat-option *ngFor="let type of types" [value]="type">
+          {{type}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Расстояние (км)" name="Расстояние (км)" [(ngModel)]="path">
+    </mat-form-field>
+
+    <div class="d-flex-row justify-content-end">
+      <button mat-button (click)="change()">Изменить</button>
+    </div>
+  </div>
+  <div class="adding" *ngIf="!selectedRow">
+    <mat-form-field class="full-width">
+      <mat-label>Тип</mat-label>
+      <mat-select [(ngModel)]="type" placeholder="Тип" name="Тип">
+        <mat-option *ngFor="let type of types" [value]="type">
+          {{type}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Расстояние (км)" name="Расстояние (км)" [(ngModel)]="path">
+    </mat-form-field>
+
+    <div class="d-flex-row justify-content-end">
+      <button mat-button (click)="add()">Добавить</button>
+    </div>
+  </div>
 </div>

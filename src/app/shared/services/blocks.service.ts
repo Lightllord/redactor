@@ -125,7 +125,7 @@ export class BlocksService {
       cell: null
     },
     {
-      id: 0,
+      id: 3,
       from: 1,
       to: 4,
       cell: null

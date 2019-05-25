@@ -1,7 +1,7 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule, MatCardModule, MatInputModule, MatSelectModule, MatTableModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatSelectModule, MatTableModule} from '@angular/material';
 import {BlocksService} from './services/blocks.service';
 
 @NgModule({
@@ -14,7 +14,8 @@ import {BlocksService} from './services/blocks.service';
     MatCardModule,
     MatTableModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatListModule
   ],
   exports: [
     CommonModule,
@@ -24,7 +25,8 @@ import {BlocksService} from './services/blocks.service';
     MatCardModule,
     MatTableModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatListModule
   ]
 })
 export class SharedModule {

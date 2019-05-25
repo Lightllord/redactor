@@ -284,8 +284,8 @@ export class RedactorComponent implements AfterViewInit, OnInit {
       r: 2, // radius of the circle
       cx: 1 // move the centre of the circle 5 pixels from the end of the path
     });
-    if (!link.info || !link.info.type) {
-      link.info = {type: 'Земля'};
+    if (!link.info || !link.info.paths) {
+      link.info = {paths: [{type: 'Ж/Д'}]};
     }
     this.graph.addCell(link.cell);
   }
