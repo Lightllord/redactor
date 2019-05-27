@@ -17,8 +17,8 @@ const routes: Routes = [
         loadChildren: './redactor/redactor.module#RedactorModule'
       },
       {
-        path: 'smth',
-        loadChildren: './redactor/redactor.module#RedactorModule'
+        path: 'dictionaries',
+        loadChildren: './dictionaries/dictionaries.module#DictionariesModule'
       }
     ]
   }

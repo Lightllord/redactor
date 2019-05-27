@@ -1,0 +1,16 @@
+:host {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.left-table {
+  flex: 1 1 auto;
+}
+
+.right-elem {
+  flex: 0 0 450px;
+}
+
+.selected-row {
+  background-color: rgba(0, 255, 252, 0.33);
+}

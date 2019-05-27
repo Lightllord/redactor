@@ -1,0 +1,12 @@
+<div class="full-height-f d-flex-column">
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link
+       *ngFor="let d of ds.descs"
+       [routerLink]="d.name"
+       routerLinkActive #rla="routerLinkActive"
+       [active]="rla.isActive">
+      {{d.title}}
+    </a>
+  </nav>
+  <router-outlet></router-outlet>
+</div>

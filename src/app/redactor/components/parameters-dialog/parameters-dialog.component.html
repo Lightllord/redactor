@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Конфигурация модели</h1>
+<div mat-dialog-content>
+  <div class="" [formGroup]="group">
+    <mat-form-field class="full-width">
+      <mat-label>Единица модельного времени</mat-label>
+      <mat-select formControlName="modelTimeUnit" [placeholder]="'Единица'">
+        <mat-option *ngFor="let u of ps.timeUnits" [value]="u">
+          {{u.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput [placeholder]="'Длительность симуляции (' + group.value.modelTimeUnit.short + ')'" type="number"
+             formControlName="simulationDuration">
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Отменить</button>
+  <button mat-button (click)="save()" cdkFocusInitial>Сохранить</button>
+</div>

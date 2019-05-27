@@ -3,6 +3,8 @@ import * as joint from 'jointjs';
 import {dia} from 'jointjs';
 import LinkView = dia.LinkView;
 import {BlocksService, IBlock, ILink} from '../../../shared/services/blocks.service';
+import {ParametersDialogComponent} from '../parameters-dialog/parameters-dialog.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-redactor',
@@ -11,7 +13,7 @@ import {BlocksService, IBlock, ILink} from '../../../shared/services/blocks.serv
 })
 export class RedactorComponent implements AfterViewInit, OnInit {
 
-  constructor(private bs: BlocksService, private renderer: Renderer2) {
+  constructor(private bs: BlocksService, private renderer: Renderer2, public dialog: MatDialog) {
   }
 
   graph: any;
@@ -371,6 +373,12 @@ export class RedactorComponent implements AfterViewInit, OnInit {
     this.links = this.bs.links;
     this.processAllBlocks();
     this.processAllLinks();
+  }
+
+  settings() {
+    const dialogRef = this.dialog.open(ParametersDialogComponent, {
+      width: '300px'
+    });
   }
 
   blockChange(e) {

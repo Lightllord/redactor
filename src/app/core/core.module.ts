@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MainComponent} from './components/main/main.component';
 import {SharedModule} from '../shared/shared.module';
-import {MatIconModule, MatTabsModule} from '@angular/material';
+import {MatTabsModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 
 @NgModule({
@@ -12,7 +12,6 @@ import {RouterModule} from '@angular/router';
   imports: [
     CommonModule,
     SharedModule.forRoot(),
-    MatIconModule,
     MatTabsModule,
     RouterModule
   ],

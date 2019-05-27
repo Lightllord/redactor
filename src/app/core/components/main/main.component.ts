@@ -12,8 +12,8 @@ export class MainComponent implements OnInit {
       path: ['/redactor']
     },
     {
-      label: 'Таблица',
-      path: ['/smth']
+      label: 'Справочники',
+      path: ['/dictionaries']
     }
   ];
   constructor() { }
