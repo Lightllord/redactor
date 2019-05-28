@@ -6,18 +6,23 @@ import {MatTabsModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 import { ElementsComponent } from './components/elements/elements.component';
 import { TimeUnitPipe } from './pipes/time-unit.pipe';
+import { DialogPackComponent } from './components/dialog-pack/dialog-pack.component';
 
 @NgModule({
   declarations: [
     ListComponent,
     ElementsComponent,
-    TimeUnitPipe
+    TimeUnitPipe,
+    DialogPackComponent
   ],
   imports: [
     SharedModule,
     DictionariesRoutingModule,
     MatTabsModule,
     RouterModule
+  ],
+  entryComponents: [
+    DialogPackComponent
   ]
 })
 export class DictionariesModule {

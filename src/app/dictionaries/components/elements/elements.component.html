@@ -24,28 +24,46 @@
       </mat-card-title>
       <mat-card-content>
         <div class="" [formGroup]="form">
-          <mat-form-field *ngFor="let field of desc.fields" class="full-width">
-            <input *ngIf="field.type === 'text'" matInput
-                   [placeholder]="(field.title | timeUnit)"
-                   type="text"
-                   [formControlName]="field.name">
-            <input *ngIf="field.type === 'number'" matInput
-                   [placeholder]="(field.title | timeUnit)"
-                   type="number"
-                   [formControlName]="field.name">
-            <mat-label *ngIf="field.type === 'select'">{{field.title | timeUnit}}</mat-label>
-            <mat-select *ngIf="field.type === 'select'" [formControlName]="field.name" [placeholder]="(field.title | timeUnit)">
-              <mat-option *ngFor="let o of field.options" [value]="o">
-                {{o}}
-              </mat-option>
-            </mat-select>
-            <mat-label *ngIf="field.type === 'dict'">{{field.title | timeUnit}}</mat-label>
-            <mat-select *ngIf="field.type === 'dict'" [formControlName]="field.name" [placeholder]="(field.title | timeUnit)">
-              <mat-option *ngFor="let o of ds.getDictVals(field.dict)" [value]="o">
-                {{o.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <ng-container *ngFor="let field of desc.fields">
+            <mat-form-field class="full-width" *ngIf="field.type !== 'custom'">
+              <input *ngIf="field.type === 'text'" matInput
+                     [placeholder]="(field.title | timeUnit)"
+                     type="text"
+                     [formControlName]="field.name">
+              <input *ngIf="field.type === 'number'" matInput
+                     [placeholder]="(field.title | timeUnit)"
+                     type="number"
+                     [formControlName]="field.name">
+              <mat-label *ngIf="field.type === 'select'">{{field.title | timeUnit}}</mat-label>
+              <mat-select *ngIf="field.type === 'select'" [formControlName]="field.name"
+                          [placeholder]="(field.title | timeUnit)">
+                <mat-option *ngFor="let o of field.options" [value]="o">
+                  {{o}}
+                </mat-option>
+              </mat-select>
+              <mat-label *ngIf="field.type === 'dict'">{{field.title | timeUnit}}</mat-label>
+              <mat-select *ngIf="field.type === 'dict'" [formControlName]="field.name" [compareWith]="dictComape"
+                          [placeholder]="(field.title | timeUnit)">
+                <mat-option *ngFor="let o of ds.getDictVals(field.dict)" [value]="o">
+                  {{o.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-card *ngIf="field.type === 'custom' && field.name === 'packs'">
+              <mat-card-title>{{field.title | timeUnit}}</mat-card-title>
+              <mat-card-content>
+                <mat-list *ngIf="form.value[field.name] && form.value[field.name].length">
+                  <mat-list-item *ngFor="let v of form.value[field.name]; let ind = index"> <b>{{v.name}}</b>, кол: {{v.count}}
+                    <span *ngIf="v.width && v.height && v.length">, размер: {{v.width}}x{{v.length}}x{{v.height}}</span>
+                    <button mat-button color="warn" (click)="delPack(ind)"><i class="material-icons">clear</i></button>
+                  </mat-list-item>
+                </mat-list>
+              </mat-card-content>
+              <mat-card-footer class="d-flex-row justify-content-end">
+                <button mat-button (click)="addPack()">+</button>
+              </mat-card-footer>
+            </mat-card>
+          </ng-container>
         </div>
       </mat-card-content>
       <mat-card-footer class="d-flex-row justify-content-end">
@@ -59,28 +77,46 @@
       </mat-card-title>
       <mat-card-content>
         <div class="" [formGroup]="form">
-          <mat-form-field *ngFor="let field of desc.fields" class="full-width">
-            <input *ngIf="field.type === 'text'" matInput
-                   [placeholder]="(field.title | timeUnit)"
-                   type="text"
-                   [formControlName]="field.name">
-            <input *ngIf="field.type === 'number'" matInput
-                   [placeholder]="(field.title | timeUnit)"
-                   type="number"
-                   [formControlName]="field.name">
-            <mat-label *ngIf="field.type === 'select'">{{field.title | timeUnit}}</mat-label>
-            <mat-select *ngIf="field.type === 'select'" [formControlName]="field.name" [placeholder]="(field.title | timeUnit)">
-              <mat-option *ngFor="let o of field.options" [value]="o">
-                {{o}}
-              </mat-option>
-            </mat-select>
-            <mat-label *ngIf="field.type === 'dict'">{{field.title | timeUnit}}</mat-label>
-            <mat-select *ngIf="field.type === 'dict'" [formControlName]="field.name" [compareWith]="dictComape" [placeholder]="(field.title | timeUnit)">
-              <mat-option *ngFor="let o of ds.getDictVals(field.dict)" [value]="o">
-                {{o.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <ng-container *ngFor="let field of desc.fields">
+            <mat-form-field class="full-width" *ngIf="field.type !== 'custom'">
+              <input *ngIf="field.type === 'text'" matInput
+                     [placeholder]="(field.title | timeUnit)"
+                     type="text"
+                     [formControlName]="field.name">
+              <input *ngIf="field.type === 'number'" matInput
+                     [placeholder]="(field.title | timeUnit)"
+                     type="number"
+                     [formControlName]="field.name">
+              <mat-label *ngIf="field.type === 'select'">{{field.title | timeUnit}}</mat-label>
+              <mat-select *ngIf="field.type === 'select'" [formControlName]="field.name"
+                          [placeholder]="(field.title | timeUnit)">
+                <mat-option *ngFor="let o of field.options" [value]="o">
+                  {{o}}
+                </mat-option>
+              </mat-select>
+              <mat-label *ngIf="field.type === 'dict'">{{field.title | timeUnit}}</mat-label>
+              <mat-select *ngIf="field.type === 'dict'" [formControlName]="field.name" [compareWith]="dictComape"
+                          [placeholder]="(field.title | timeUnit)">
+                <mat-option *ngFor="let o of ds.getDictVals(field.dict)" [value]="o">
+                  {{o.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-card *ngIf="field.type === 'custom' && field.name === 'packs'">
+              <mat-card-title>{{field.title | timeUnit}}</mat-card-title>
+              <mat-card-content>
+                <mat-list *ngIf="form.value[field.name] && form.value[field.name].length">
+                  <mat-list-item *ngFor="let v of form.value[field.name]; let ind = index"> <b>{{v.name}}</b>, кол: {{v.count}}
+                    <span *ngIf="v.width && v.height && v.length">, размер: {{v.width}}x{{v.length}}x{{v.height}}</span>
+                    <button mat-button color="warn" (click)="delPack(ind)"><i class="material-icons">clear</i></button>
+                  </mat-list-item>
+                </mat-list>
+              </mat-card-content>
+              <mat-card-footer class="d-flex-row justify-content-end">
+                <button mat-button (click)="addPack()">+</button>
+              </mat-card-footer>
+            </mat-card>
+          </ng-container>
         </div>
       </mat-card-content>
       <mat-card-footer class="d-flex-row justify-content-end">

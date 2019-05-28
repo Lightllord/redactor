@@ -4,7 +4,7 @@ export interface IDictDescField {
   title: string;
   name: string; // {mtu} is changed by MTU
   fields?: DictDescField[];
-  type?: 'text' | 'number' | 'dict' | 'select';
+  type?: 'text' | 'number' | 'dict' | 'select' | 'custom';
   dict?: string;
   options?: any[];
   column?: boolean;
@@ -21,7 +21,7 @@ export class DictDescField implements IDictDescField {
   fields: DictDescField[];
   name: string; // {mtu} is changed by MTU
   title: string;
-  type: 'text' | 'number' | 'dict' | 'select';
+  type: 'text' | 'number' | 'dict' | 'select' | 'custom';
   options: any[];
   column: boolean;
 
@@ -57,18 +57,12 @@ export class DictsService {
       name: 'goods', title: 'Товары', fields: [
         new DictDescField({name: 'name', title: 'Наименование', column: true}),
         new DictDescField({name: 'expiring', title: 'Срок годности ({mtu})', type: 'number', column: true}),
-        // new DictDescField({
-        //   name: 'size', title: 'Габариты', fields: [
-        //     new DictDescField({name: 'length', title: 'Длина (м)', type: 'number'}),
-        //     new DictDescField({name: 'width', title: 'Ширина (м)', type: 'number'}),
-        //     new DictDescField({name: 'height', title: 'Высота (м)', type: 'number'}),
-        //   ]
-        // }),
         new DictDescField({name: 'length', title: 'Длина (м)', type: 'number'}),
         new DictDescField({name: 'width', title: 'Ширина (м)', type: 'number'}),
         new DictDescField({name: 'height', title: 'Высота (м)', type: 'number'}),
         new DictDescField({name: 'weight', title: 'Вес (кг)', type: 'number'}),
         new DictDescField({name: 'price', title: 'Цена (р)', type: 'number', column: true}),
+        new DictDescField({name: 'packs', title: 'Упаковки', type: 'custom'})
       ]
     }),
     new DictDesc({

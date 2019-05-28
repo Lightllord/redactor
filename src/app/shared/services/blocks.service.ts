@@ -140,11 +140,11 @@ export class BlocksService {
       if (b.cell && b.cell.attributes && b.cell.attributes.position) {
         b.x = b.cell.attributes.position.x;
         b.y = b.cell.attributes.position.y;
-        b.cell = null;
       }
+      b.cell = null;
+      b.html = null;
       return b;
     });
     this.links = [...ls];
-    console.log(this.blocks, this.links);
   }
 }

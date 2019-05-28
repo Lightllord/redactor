@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnChanges, OnDestroy, OnInit, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
 import * as joint from 'jointjs';
 import {dia} from 'jointjs';
 import LinkView = dia.LinkView;
@@ -11,7 +11,7 @@ import {MatDialog} from '@angular/material';
   templateUrl: './redactor.component.html',
   styleUrls: ['./redactor.component.scss']
 })
-export class RedactorComponent implements AfterViewInit, OnInit {
+export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
 
   constructor(private bs: BlocksService, private renderer: Renderer2, public dialog: MatDialog) {
   }
@@ -105,6 +105,10 @@ export class RedactorComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.blocks = [...this.bs.blocks];
     this.links = [...this.bs.links];
+  }
+
+  ngOnDestroy(): void {
+    this.bs.save(this.blocks, this.links);
   }
 
   ngAfterViewInit(): void {
@@ -368,6 +372,11 @@ export class RedactorComponent implements AfterViewInit, OnInit {
 
   save() {
     this.graph.clear();
+    this.blocks.forEach(b => {
+      if (b.html) {
+        this.renderer.removeChild(this.paperView.nativeElement, b.html);
+      }
+    });
     this.bs.save(this.blocks, this.links);
     this.blocks = this.bs.blocks;
     this.links = this.bs.links;

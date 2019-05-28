@@ -20,6 +20,7 @@ export class BlockInfoComponent implements OnChanges {
 
   constructor(private fb: FormBuilder) {
     this.formGroup = this.fb.group({
+      name: null,
       containerCount: null,
       containerVal: null,
       containerWeight: null
