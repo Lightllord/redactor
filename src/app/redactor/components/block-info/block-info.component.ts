@@ -1,8 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {IBlock} from '../../../shared/services/blocks.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {BlocksService, IBlock} from '../../../shared/services/blocks.service';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-block-info',
@@ -10,20 +9,19 @@ import {debounceTime} from 'rxjs/operators';
   styleUrls: ['./block-info.component.scss']
 })
 export class BlockInfoComponent implements OnChanges {
+  // block.info.schedule
   @Input() block: IBlock;
   @Output() blockChanged = new EventEmitter();
   formGroup: FormGroup;
   lookChange: Subscription;
-  containerCount;
-  containerVal;
-  containerWeight;
 
-  constructor(private fb: FormBuilder) {
+  get schedules(): FormArray {
+    return this.formGroup.get('schedules') as FormArray;
+  }
+
+  constructor(private fb: FormBuilder, private bs: BlocksService) {
     this.formGroup = this.fb.group({
-      name: null,
-      containerCount: null,
-      containerVal: null,
-      containerWeight: null
+      name: null
     });
   }
 
@@ -31,16 +29,16 @@ export class BlockInfoComponent implements OnChanges {
     if (this.lookChange) {
       this.lookChange.unsubscribe();
     }
-    if (changes.block && this.block && !this.block.info) {
-      this.block.info = {};
-    }
-    this.formGroup.reset(this.block.info);
-    this.lookChange = this.formGroup.valueChanges.pipe(debounceTime(350)).subscribe(
-      res => {
-        this.block.info = {...this.block.info, ...res};
-        this.blockChanged.next(this.block);
+    if (changes.block && this.block) {
+      console.log(changes.block);
+      if (!this.block.info) {
+        this.block.info = {};
       }
-    );
+      this.formGroup.reset(this.block.info);
+      if (this.block.classId === 1 || this.block.classId === 3 || this.block.classId === 4) {
+        this.makeSchedule();
+      }
+    }
   }
 
   goodsInChanges(e) {
@@ -50,6 +48,55 @@ export class BlockInfoComponent implements OnChanges {
 
   goodsOutChanges(e) {
     this.block.info.goodsOut = e;
+    this.blockChanged.next(this.block);
+  }
+
+  save() {
+    this.block.info = this.formGroup.value;
+    this.blockChanged.next(this.block);
+  }
+
+  makeSchedule() {
+    let existed = this.block.info.schedule || [];
+    let connected = [];
+    this.bs.links.forEach(l => {
+      if (l.from === this.block.id) {
+        let blc = this.bs.blocks.find(b => b.id === l.to);
+        if (blc.classId === 1 || blc.classId === 3 || blc.classId === 4) {
+          connected.push(blc);
+        }
+      }
+      if (l.to === this.block.id) {
+        let blc = this.bs.blocks.find(b => b.id === l.from);
+        if (blc.classId === 1 || blc.classId === 3 || blc.classId === 4) {
+          connected.push(blc);
+        }
+      }
+    });
+    existed = existed.filter(sh => {
+      return !!connected.find(c => c.id === sh.blockTo.id);
+    });
+    connected.filter(c => !existed.find(e => e.blockTo.id === c.id)).forEach(c => {
+      existed.push({
+        blockTo: c,
+        timeFrom: null,
+        period: null,
+        containers: []
+      });
+    });
+    this.formGroup.setControl('schedules',
+      new FormArray(existed.map(e => {
+        return this.fb.group({
+          blockTo: e.blockTo,
+          timeFrom: e.timeFrom,
+          period: e.period,
+          containers: e.containers
+        });
+      }))
+    );
+    // this.formGroup.get('name').setValue(this.block.info.name);
+    Object.assign(this.block.info, this.formGroup.value);
+    // this.block.info = this.formGroup.value;
     this.blockChanged.next(this.block);
   }
 }

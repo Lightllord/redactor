@@ -13,9 +13,12 @@ import {
 import {BlocksService} from './services/blocks.service';
 import {ParametersService} from './services/parameters.service';
 import {DictsService} from './services/dicts.service';
+import {TimeUnitPipe} from '../dictionaries/pipes/time-unit.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    TimeUnitPipe
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -41,6 +44,7 @@ import {DictsService} from './services/dicts.service';
     MatSelectModule,
     MatListModule,
     MatDialogModule,
+    TimeUnitPipe
   ]
 })
 export class SharedModule {

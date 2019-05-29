@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnChanges, OnDestroy, OnInit, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import * as joint from 'jointjs';
 import {dia} from 'jointjs';
 import LinkView = dia.LinkView;
@@ -371,6 +371,8 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   save() {
+    this.selectedLink = null;
+    this.selectedBlock = null;
     this.graph.clear();
     this.blocks.forEach(b => {
       if (b.html) {
@@ -382,6 +384,7 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
     this.links = this.bs.links;
     this.processAllBlocks();
     this.processAllLinks();
+    console.log(this.bs.blocks);
   }
 
   settings() {
@@ -391,6 +394,7 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   blockChange(e) {
+    console.log('chng', e);
     if (e.html) {
       this.renderer.removeChild(this.paperView.nativeElement, e.html);
       e.html = null;

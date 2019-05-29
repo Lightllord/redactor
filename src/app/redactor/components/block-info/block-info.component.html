@@ -2,13 +2,12 @@
   <mat-card class="full-height d-flex-column">
     <mat-card-title>
       <ng-container [ngSwitch]="block.classId">
-        <ng-container *ngSwitchCase="1">Вокзал </ng-container>
-        <ng-container *ngSwitchCase="2">Поставщик </ng-container>
-        <ng-container *ngSwitchCase="3">Аэропорт </ng-container>
-        <ng-container *ngSwitchCase="4">Порт </ng-container>
-        <ng-container *ngSwitchCase="5">Посрденик </ng-container>
-        <ng-container *ngSwitchCase="6">Потребитель </ng-container>
-         ({{block.id}})
+        <ng-container *ngSwitchCase="1">Вокзал</ng-container>
+        <ng-container *ngSwitchCase="2">Поставщик</ng-container>
+        <ng-container *ngSwitchCase="3">Аэропорт</ng-container>
+        <ng-container *ngSwitchCase="4">Порт</ng-container>
+        <ng-container *ngSwitchCase="5">Посрденик</ng-container>
+        <ng-container *ngSwitchCase="6">Потребитель</ng-container>
       </ng-container>
     </mat-card-title>
     <mat-card-content *ngIf="block.classId === 2" class="card-content f-stretching d-flex-column">
@@ -31,18 +30,40 @@
     </mat-card-content>
     <mat-card-content *ngIf="block.classId === 1 || block.classId === 3 || block.classId === 4"
                       class="card-content f-stretching d-flex-column">
-      <div class="title">Контейнеры</div>
       <div class="" [formGroup]="formGroup">
         <mat-form-field class="full-width">
-          <input matInput placeholder="Количество" name="Количество" formControlName="containerCount">
+          <input matInput placeholder="Наименование" name="Наименование" formControlName="name">
         </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Габариты" name="Габариты" formControlName="containerVal">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Вес" name="Вес" formControlName="containerWeight">
-        </mat-form-field>
+        <ng-container *ngIf="schedules && schedules.controls && schedules.controls.length">
+          <h1>Расписание</h1>
+          <ng-container formArrayName="schedules">
+            <ng-container *ngFor="let sch of schedules.controls; let i = index;">
+              <mat-card [formGroupName]="i">
+                <mat-card-title *ngIf="sch.value.blockTo.classId === 1">Вокзал
+                  {{(sch.value.blockTo.info && sch.value.blockTo.info.name) ? '[' + sch.value.blockTo.info.name + ']' : ''}}
+                </mat-card-title>
+                <mat-card-title *ngIf="sch.value.blockTo.classId === 3">Аэропорт
+                  {{(sch.value.blockTo.info && sch.value.blockTo.info.name) ? '[' + sch.value.blockTo.info.name + ']' : ''}}
+                </mat-card-title>
+                <mat-card-title *ngIf="sch.value.blockTo.classId === 4">Порт
+                  {{(sch.value.blockTo.info && sch.value.blockTo.info.name) ? '[' + sch.value.blockTo.info.name + ']' : ''}}
+                </mat-card-title>
+                <mat-card-content>
+                  <mat-form-field class="full-width">
+                    <input matInput [placeholder]="('Время отправления {mtu}' | timeUnit)" formControlName="timeFrom">
+                  </mat-form-field>
+                  <mat-form-field class="full-width">
+                    <input matInput placeholder="Периодичность" formControlName="period">
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+            </ng-container>
+          </ng-container>
+        </ng-container>
       </div>
     </mat-card-content>
+    <mat-card-footer class="d-flex-row justify-content-end">
+      <button mat-button (click)="save()">Сохранить</button>
+    </mat-card-footer>
   </mat-card>
 </div>
