@@ -35,27 +35,44 @@
           <input matInput placeholder="Наименование" name="Наименование" formControlName="name">
         </mat-form-field>
         <ng-container *ngIf="schedules && schedules.controls && schedules.controls.length">
-          <h1>Расписание</h1>
+          <h1 style="margin: 2px 0; font-size: 20px">Расписание</h1>
           <ng-container formArrayName="schedules">
             <ng-container *ngFor="let sch of schedules.controls; let i = index;">
               <mat-card [formGroupName]="i">
-                <mat-card-title *ngIf="sch.value.blockTo.classId === 1">Вокзал
+                <mat-card-title style="font-size: 20px" *ngIf="sch.value.blockTo.classId === 1">Вокзал
                   {{(sch.value.blockTo.info && sch.value.blockTo.info.name) ? '[' + sch.value.blockTo.info.name + ']' : ''}}
                 </mat-card-title>
-                <mat-card-title *ngIf="sch.value.blockTo.classId === 3">Аэропорт
+                <mat-card-title style="font-size: 20px" *ngIf="sch.value.blockTo.classId === 3">Аэропорт
                   {{(sch.value.blockTo.info && sch.value.blockTo.info.name) ? '[' + sch.value.blockTo.info.name + ']' : ''}}
                 </mat-card-title>
-                <mat-card-title *ngIf="sch.value.blockTo.classId === 4">Порт
+                <mat-card-title style="font-size: 20px" *ngIf="sch.value.blockTo.classId === 4">Порт
                   {{(sch.value.blockTo.info && sch.value.blockTo.info.name) ? '[' + sch.value.blockTo.info.name + ']' : ''}}
                 </mat-card-title>
                 <mat-card-content>
                   <mat-form-field class="full-width">
-                    <input matInput [placeholder]="('Время отправления {mtu}' | timeUnit)" formControlName="timeFrom">
+                    <input matInput [placeholder]="('Время отправления ({mtu})' | timeUnit)" formControlName="timeFrom">
                   </mat-form-field>
                   <mat-form-field class="full-width">
-                    <input matInput placeholder="Периодичность" formControlName="period">
+                    <input matInput [placeholder]="('Периодичность ({mtu})' | timeUnit)" formControlName="period">
                   </mat-form-field>
                 </mat-card-content>
+
+                <mat-card>
+                  <mat-card-title style="font-size: 19px">Контейнеры</mat-card-title>
+                  <mat-card-content>
+                    <mat-list *ngIf="schedules.controls[i].value &&
+                    schedules.controls[i].value.containers && schedules.controls[i].value.containers.length">
+                      <mat-list-item *ngFor="let c of schedules.controls[i].value.containers; let ind = index">
+                        <b>{{c.type.name}}</b>, кол-во: {{c.count}}, стоимость: {{c.price}}
+                        <button mat-button color="warn" (click)="delPack(i, ind)"><i class="material-icons">clear</i></button>
+                      </mat-list-item>
+                    </mat-list>
+                  </mat-card-content>
+                  <mat-card-footer class="d-flex-row justify-content-end">
+                    <button mat-button (click)="addPack()">+</button>
+                  </mat-card-footer>
+                </mat-card>
+
               </mat-card>
             </ng-container>
           </ng-container>

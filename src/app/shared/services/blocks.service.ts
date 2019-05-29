@@ -102,6 +102,16 @@ export class BlocksService {
           }
         ]
       }
+    },
+    {
+      id: 5,
+      classId: 3,
+      cell: null,
+      x: 520,
+      y: 100,
+      info: {
+        name: 'Гондольерский'
+      }
     }
   ];
 
@@ -128,6 +138,12 @@ export class BlocksService {
       id: 3,
       from: 1,
       to: 4,
+      cell: null
+    },
+    {
+      id: 4,
+      from: 2,
+      to: 5,
       cell: null
     }
   ];

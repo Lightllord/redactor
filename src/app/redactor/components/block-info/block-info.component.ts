@@ -2,6 +2,10 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {BlocksService, IBlock} from '../../../shared/services/blocks.service';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
+import {MatDialog} from '@angular/material';
+import {DialogPackComponent} from '../../../dictionaries/components/dialog-pack/dialog-pack.component';
+import {take} from 'rxjs/operators';
+import {PackDialogComponent} from '../pack-dialog/pack-dialog.component';
 
 @Component({
   selector: 'app-block-info',
@@ -19,7 +23,7 @@ export class BlockInfoComponent implements OnChanges {
     return this.formGroup.get('schedules') as FormArray;
   }
 
-  constructor(private fb: FormBuilder, private bs: BlocksService) {
+  constructor(private fb: FormBuilder, private bs: BlocksService, public dialog: MatDialog) {
     this.formGroup = this.fb.group({
       name: null
     });
@@ -30,7 +34,6 @@ export class BlockInfoComponent implements OnChanges {
       this.lookChange.unsubscribe();
     }
     if (changes.block && this.block) {
-      console.log(changes.block);
       if (!this.block.info) {
         this.block.info = {};
       }
@@ -57,7 +60,7 @@ export class BlockInfoComponent implements OnChanges {
   }
 
   makeSchedule() {
-    let existed = this.block.info.schedule || [];
+    let existed = this.block.info.schedules || [];
     let connected = [];
     this.bs.links.forEach(l => {
       if (l.from === this.block.id) {
@@ -98,5 +101,16 @@ export class BlockInfoComponent implements OnChanges {
     Object.assign(this.block.info, this.formGroup.value);
     // this.block.info = this.formGroup.value;
     this.blockChanged.next(this.block);
+  }
+
+  delPack(containerId, packId) {
+
+  }
+
+  addPack() {
+    const dialogRef = this.dialog.open(PackDialogComponent, {
+      width: '300px'
+    }).afterClosed().pipe(take(1)).subscribe(res => {
+    });
   }
 }

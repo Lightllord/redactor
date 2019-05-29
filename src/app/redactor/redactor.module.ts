@@ -7,6 +7,7 @@ import {BlockInfoComponent} from './components/block-info/block-info.component';
 import {GoodsTableComponent} from './components/goods-table/goods-table.component';
 import {LinkInfoComponent} from './components/link-info/link-info.component';
 import {ParametersDialogComponent} from './components/parameters-dialog/parameters-dialog.component';
+import { PackDialogComponent } from './components/pack-dialog/pack-dialog.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {ParametersDialogComponent} from './components/parameters-dialog/paramete
     BlockInfoComponent,
     GoodsTableComponent,
     LinkInfoComponent,
-    ParametersDialogComponent
+    ParametersDialogComponent,
+    PackDialogComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import {ParametersDialogComponent} from './components/parameters-dialog/paramete
     SharedModule
   ],
   entryComponents: [
-    ParametersDialogComponent
+    ParametersDialogComponent,
+    PackDialogComponent
   ]
 })
 export class RedactorModule {

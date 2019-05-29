@@ -384,7 +384,6 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
     this.links = this.bs.links;
     this.processAllBlocks();
     this.processAllLinks();
-    console.log(this.bs.blocks);
   }
 
   settings() {
@@ -394,7 +393,6 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   blockChange(e) {
-    console.log('chng', e);
     if (e.html) {
       this.renderer.removeChild(this.paperView.nativeElement, e.html);
       e.html = null;
