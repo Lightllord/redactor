@@ -3,9 +3,8 @@ import {BlocksService, IBlock} from '../../../shared/services/blocks.service';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {MatDialog} from '@angular/material';
-import {DialogPackComponent} from '../../../dictionaries/components/dialog-pack/dialog-pack.component';
 import {take} from 'rxjs/operators';
-import {PackDialogComponent} from '../pack-dialog/pack-dialog.component';
+import {ContainerDialogComponent} from '../container-dialog/container-dialog.component';
 
 @Component({
   selector: 'app-block-info',
@@ -87,30 +86,50 @@ export class BlockInfoComponent implements OnChanges {
         containers: []
       });
     });
+
     this.formGroup.setControl('schedules',
       new FormArray(existed.map(e => {
-        return this.fb.group({
+        let gr = this.fb.group({
           blockTo: e.blockTo,
           timeFrom: e.timeFrom,
           period: e.period,
           containers: e.containers
         });
+        gr.get('containers').setValue(e.containers);
+        return gr;
       }))
     );
+
     // this.formGroup.get('name').setValue(this.block.info.name);
     Object.assign(this.block.info, this.formGroup.value);
     // this.block.info = this.formGroup.value;
     this.blockChanged.next(this.block);
   }
 
-  delPack(containerId, packId) {
-
+  delPack(schId, packId) {
+    let vls = this.schedules.controls[schId].value;
+    let cont = vls.containers;
+    cont.splice(packId, 1);
+    vls.containers = cont;
+    this.schedules.get(`${schId}`).setValue(vls);
   }
 
-  addPack() {
-    const dialogRef = this.dialog.open(PackDialogComponent, {
+  addPack(schId) {
+    this.dialog.open(ContainerDialogComponent, {
       width: '300px'
     }).afterClosed().pipe(take(1)).subscribe(res => {
+      if (res && res.container && res.count && res.price) {
+        let vls = this.schedules.get(`${schId}`).value;
+        let cont = vls.containers;
+        if (cont && cont.length) {
+          cont.push(res);
+          vls.containers = cont;
+          this.schedules.get(`${schId}`).setValue(vls);
+        } else {
+          vls.containers = [res];
+          this.schedules.get(`${schId}`).setValue(vls);
+        }
+      }
     });
   }
 }

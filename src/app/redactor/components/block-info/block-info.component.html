@@ -60,16 +60,16 @@
                 <mat-card>
                   <mat-card-title style="font-size: 19px">Контейнеры</mat-card-title>
                   <mat-card-content>
-                    <mat-list *ngIf="schedules.controls[i].value &&
-                    schedules.controls[i].value.containers && schedules.controls[i].value.containers.length">
-                      <mat-list-item *ngFor="let c of schedules.controls[i].value.containers; let ind = index">
-                        <b>{{c.type.name}}</b>, кол-во: {{c.count}}, стоимость: {{c.price}}
+                    <mat-list *ngIf="schedules.get('' + i) && schedules.get('' + i).value &&
+                    schedules.get('' + i).value.containers">
+                      <mat-list-item  style="font-size: 12px" *ngFor="let c of schedules.get('' + i).value.containers; let ind = index">
+                        <b>{{c.container.name}}</b>, кол-во: {{c.count}}, стоимость: {{c.price}}
                         <button mat-button color="warn" (click)="delPack(i, ind)"><i class="material-icons">clear</i></button>
                       </mat-list-item>
                     </mat-list>
                   </mat-card-content>
                   <mat-card-footer class="d-flex-row justify-content-end">
-                    <button mat-button (click)="addPack()">+</button>
+                    <button mat-button (click)="addPack(i)">+</button>
                   </mat-card-footer>
                 </mat-card>
 

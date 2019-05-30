@@ -7,7 +7,7 @@ import {BlockInfoComponent} from './components/block-info/block-info.component';
 import {GoodsTableComponent} from './components/goods-table/goods-table.component';
 import {LinkInfoComponent} from './components/link-info/link-info.component';
 import {ParametersDialogComponent} from './components/parameters-dialog/parameters-dialog.component';
-import { PackDialogComponent } from './components/pack-dialog/pack-dialog.component';
+import {ContainerDialogComponent} from './components/container-dialog/container-dialog.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { PackDialogComponent } from './components/pack-dialog/pack-dialog.compon
     GoodsTableComponent,
     LinkInfoComponent,
     ParametersDialogComponent,
-    PackDialogComponent
+    ContainerDialogComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +25,7 @@ import { PackDialogComponent } from './components/pack-dialog/pack-dialog.compon
   ],
   entryComponents: [
     ParametersDialogComponent,
-    PackDialogComponent
+    ContainerDialogComponent
   ]
 })
 export class RedactorModule {
