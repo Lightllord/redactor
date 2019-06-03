@@ -1,19 +1,26 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {DictsService} from '../../../shared/services/dicts.service';
 
 @Component({
   selector: 'app-goods-table',
   templateUrl: './goods-table.component.html',
   styleUrls: ['./goods-table.component.scss']
 })
-export class GoodsTableComponent implements OnChanges {
+export class GoodsTableComponent implements OnChanges, OnInit {
   @Input() source: any;
   @Output() dataChanged = new EventEmitter();
+  product = null;
   name = null;
   count = null;
   selectedRow = null;
-  displayedColumns: string[] = ['name', 'count'];
+  displayedColumns: string[] = ['product', 'count'];
+  goods;
 
-  constructor() {
+  constructor(private ds: DictsService) {
+  }
+
+  ngOnInit() {
+    this.goods = this.ds.getDictVals('goods');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -23,12 +30,12 @@ export class GoodsTableComponent implements OnChanges {
   }
 
   add() {
-    if (this.name && this.count) {
+    if (this.product && this.count) {
       this.source.push({
-        name: this.name,
+        product: this.product,
         count: this.count
       });
-      this.name = null;
+      this.product = null;
       this.count = null;
       this.source = [...this.source];
       this.dataChanged.next(this.source);

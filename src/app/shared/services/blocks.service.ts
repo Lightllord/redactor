@@ -39,7 +39,7 @@ export class BlocksService {
       info: {
         goodsOut: [
           {
-            name: 'Вкусняхи',
+            product: {name: 'Вкусняхи'},
             count: 1000
           }
         ]
@@ -54,13 +54,13 @@ export class BlocksService {
       info: {
         goodsIn: [
           {
-            name: 'Вкусняхи',
+            product: {name: 'Вкусняхи'},
             count: 100
           }
         ],
         goodsOut: [
           {
-            name: 'Вкусняхи',
+            product: {name: 'Вкусняхи'},
             count: 100
           }
         ]
@@ -82,7 +82,7 @@ export class BlocksService {
       info: {
         goodsIn: [
           {
-            name: 'Вкусняхи',
+            product: {name: 'Вкусняхи'},
             count: 70
           }
         ]
@@ -97,7 +97,7 @@ export class BlocksService {
       info: {
         goodsIn: [
           {
-            name: 'Вкусняхи',
+            product: {name: 'Вкусняхи'},
             count: 30
           }
         ]

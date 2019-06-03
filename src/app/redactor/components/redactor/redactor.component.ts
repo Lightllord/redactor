@@ -34,8 +34,9 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           fill: 'rgba(0,0,0,0.35)'
         },
         label: {
-          text: 'Вокзал - ' + block.id,
-          fill: 'black'
+          text: 'Вокзал',
+          fill: 'black',
+          transform: 'matrix(1, 0, 0, 1, 0, -5)'
         }
       });
     }
@@ -58,8 +59,9 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           fill: 'rgba(0,0,255,0.35)'
         },
         label: {
-          text: 'Аэропорт - ' + block.id,
-          fill: 'black'
+          text: 'Аэропорт',
+          fill: 'black',
+          transform: 'matrix(1, 0, 0, 1, 0, -5)'
         }
       });
     }
@@ -69,8 +71,9 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           fill: 'rgba(0,255,255,0.35)'
         },
         label: {
-          text: 'Порт - ' + block.id,
-          fill: 'black'
+          text: 'Порт',
+          fill: 'black',
+          transform: 'matrix(1, 0, 0, 1, 0, -5)'
         }
       });
     }
@@ -81,7 +84,7 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           fill: 'rgba(255,0,255,0.35)'
         },
         label: {
-          text: 'Посредник - ' + block.id,
+          text: 'Производитель - ' + block.id,
           fill: 'black',
           transform: 'matrix(1, 0, 0, 1, 0, -25)'
         }
@@ -94,7 +97,20 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           fill: 'rgba(255,255,0,0.35)'
         },
         label: {
-          text: 'Потребитель - ' + block.id,
+          text: 'Потребитель',
+          fill: 'black',
+          transform: 'matrix(1, 0, 0, 1, 0, -25)'
+        }
+      });
+    }
+    if (block.classId === 7) {
+      block.cell.resize(115, 88);
+      block.cell.attr({
+        body: {
+          fill: 'rgba(255,255,255,0.35)'
+        },
+        label: {
+          text: 'Дистрибьютор - ' + block.id,
           fill: 'black',
           transform: 'matrix(1, 0, 0, 1, 0, -25)'
         }
@@ -247,6 +263,9 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
     if (this.blocks && this.blocks.length) {
       this.blocks.forEach(b => {
         this.processBlock(b);
+        if ((b.classId === 1 || b.classId === 3 || b.classId === 4 || b.classId === 7) && b.info) {
+          this.addName(b);
+        }
         if (b.info && b.info.goodsIn && b.info.goodsOut) {
           this.addGoodAllTable(b);
           return;
@@ -397,6 +416,9 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
       this.renderer.removeChild(this.paperView.nativeElement, e.html);
       e.html = null;
     }
+    if (e.classId === 1 || e.classId === 3 || e.classId === 4 || e.classId === 7) {
+      this.addName(e);
+    }
     if (e.classId === 2) {
       this.addGoodsOutTable(e);
     }
@@ -419,7 +441,7 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
         let row = this.renderer.createElement('div');
         this.renderer.appendChild(data, row);
         this.renderer.addClass(row, 'row');
-        const text = this.renderer.createText(`${g.name} - ${g.count}`);
+        const text = this.renderer.createText(`${g.product.name} - ${g.count}`);
         this.renderer.appendChild(row, text);
       });
       b.html = data;
@@ -428,21 +450,34 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   addGoodInTable(b: IBlock) {
-    if (!b.html && b.info.goodsIn) {
+    if (!b.html) {
       let data = this.renderer.createElement('div');
       this.renderer.addClass(data, 'goods-one');
       this.renderer.setStyle(data, 'left', `${b.x}px`);
       this.renderer.setStyle(data, 'top', `${b.y + 30}px`);
       this.renderer.setAttribute(data, 'id', `back${b.id}`);
-      b.info.goodsIn.forEach(g => {
-        let row = this.renderer.createElement('div');
-        this.renderer.appendChild(data, row);
-        this.renderer.addClass(row, 'row');
-        const text = this.renderer.createText(`${g.name} - ${g.count}`);
-        this.renderer.appendChild(row, text);
-      });
-      b.html = data;
-      this.renderer.appendChild(this.paperView.nativeElement, data);
+      if (b.info.name) {
+        let name = this.renderer.createElement('div');
+        this.renderer.addClass(name, 'name-in');
+        const text = this.renderer.createText(`${b.info.name}`);
+        this.renderer.appendChild(name, text);
+        this.renderer.appendChild(data, name);
+      }
+      if (b.info.goodsIn) {
+        let tab = this.renderer.createElement('div');
+        this.renderer.addClass(tab, 'tab');
+
+        b.info.goodsIn.forEach(g => {
+          let row = this.renderer.createElement('div');
+          this.renderer.appendChild(tab, row);
+          this.renderer.addClass(row, 'row');
+          const text = this.renderer.createText(`${g.product.name} - ${g.count}`);
+          this.renderer.appendChild(row, text);
+        });
+        this.renderer.appendChild(data, tab);
+        b.html = data;
+        this.renderer.appendChild(this.paperView.nativeElement, data);
+      }
     }
   }
 
@@ -464,7 +499,7 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           let row = this.renderer.createElement('div');
           this.renderer.appendChild(left, row);
           this.renderer.addClass(row, 'row');
-          const text = this.renderer.createText(`${g.name} - ${g.count}`);
+          const text = this.renderer.createText(`${g.product.name} - ${g.count}`);
           this.renderer.appendChild(left, text);
         });
       }
@@ -473,7 +508,7 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           let row = this.renderer.createElement('div');
           this.renderer.appendChild(right, row);
           this.renderer.addClass(row, 'row');
-          const text = this.renderer.createText(`${g.name} - ${g.count}`);
+          const text = this.renderer.createText(`${g.product.name} - ${g.count}`);
           this.renderer.appendChild(right, text);
         });
       }
@@ -482,8 +517,21 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  addName(b: IBlock) {
+    if (!b.html && b.info.name) {
+      let data = this.renderer.createElement('div');
+      this.renderer.addClass(data, 'name');
+      const text = this.renderer.createText(`${b.info.name}`);
+      this.renderer.appendChild(data, text);
+      this.renderer.setStyle(data, 'left', `${b.x}px`);
+      this.renderer.setStyle(data, 'top', `${b.y + 30}px`);
+      this.renderer.appendChild(this.paperView.nativeElement, data);
+      b.html = data;
+    }
+  }
+
   changePosition(b: IBlock) {
-    if (b.classId === 2 || b.classId === 5 || b.classId === 6) {
+    if (b.html) {
       this.renderer.setStyle(b.html, 'left', `${b.x}px`);
       this.renderer.setStyle(b.html, 'top', `${b.y + 30}px`);
     }

@@ -24,7 +24,10 @@ export class BlockInfoComponent implements OnChanges {
 
   constructor(private fb: FormBuilder, private bs: BlocksService, public dialog: MatDialog) {
     this.formGroup = this.fb.group({
-      name: null
+      name: null,
+      mat: null,
+      disp: null,
+      rop: null
     });
   }
 
@@ -54,7 +57,10 @@ export class BlockInfoComponent implements OnChanges {
   }
 
   save() {
-    this.block.info = this.formGroup.value;
+    // if (this.block.classId === 1 || this.block.classId === 3 || this.block.classId === 4) {
+    //   this.block.info = this.formGroup.value;
+    // }
+    Object.assign(this.block.info, this.formGroup.value);
     this.blockChanged.next(this.block);
   }
 

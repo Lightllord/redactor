@@ -15,11 +15,27 @@
       <app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsOutChanges($event)"
                        class="f-stretching"></app-goods-table>
     </mat-card-content>
+
     <mat-card-content *ngIf="block.classId === 6" class="card-content f-stretching d-flex-column">
+      <div class="" [formGroup]="formGroup">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Наименование" name="Наименование" formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Точка заказа" name="Точка заказа (%)" type="number" formControlName="rop">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Спрос (мат. ожидание)" name="Мат. ожидание" formControlName="mat">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Спрос (дисперсия)" name="Дисперсия" formControlName="disp">
+        </mat-form-field>
+      </div>
       <div class="title">Товары на заказ</div>
       <app-goods-table [source]="block.info.goodsIn" (dataChanged)="goodsInChanges($event)"
                        class="f-stretching"></app-goods-table>
     </mat-card-content>
+
     <mat-card-content *ngIf="block.classId === 5" class="card-content f-stretching d-flex-column">
       <div class="title">Товары на заказ</div>
       <app-goods-table [source]="block.info.goodsIn" (dataChanged)="goodsInChanges($event)"

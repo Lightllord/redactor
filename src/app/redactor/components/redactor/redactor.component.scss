@@ -45,7 +45,7 @@
   background-color: rgba(0, 255, 255, 0.35);
 }
 
-.posrednik {
+.proizvoditel {
   background-color: rgba(255, 0, 255, 0.35);
 }
 
@@ -53,17 +53,42 @@
   background-color: rgba(255, 255, 0, 0.35);
 }
 
+.distributer {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
 .goods-one {
   width: 115px;
   height: 58px;
-  padding: 2px;
   //z-index: -1;
   font-size: 11px;
   position: absolute;
-  overflow-y: auto;
+  .tab {
+    padding: 2px;
+    overflow-y: auto;
+    height: 41px;
+  }
   .row {
     border-top: 1px dotted black;
   }
+  .name-in {
+    width: 115px;
+    height: 17px;
+    padding: 2px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: 600;
+  }
+}
+
+.name {
+  width: 115px;
+  height: 17px;
+  padding: 2px;
+  font-size: 12px;
+  position: absolute;
+  text-align: center;
+  font-weight: 600;
 }
 
 .goods-two {
