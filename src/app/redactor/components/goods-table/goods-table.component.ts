@@ -66,4 +66,13 @@ export class GoodsTableComponent implements OnChanges, OnInit {
     }
   }
 
+  del() {
+    const foundInd = this.source.findIndex(s => s === this.selectedRow);
+    this.source.splice(foundInd, 1);
+    this.selectedRow = null;
+    this.name = null;
+    this.count = null;
+    this.source = [...this.source];
+    this.dataChanged.next(this.source);
+  }
 }

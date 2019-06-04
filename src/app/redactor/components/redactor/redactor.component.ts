@@ -84,7 +84,7 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           fill: 'rgba(255,0,255,0.35)'
         },
         label: {
-          text: 'Производитель - ' + block.id,
+          text: 'Производитель',
           fill: 'black',
           transform: 'matrix(1, 0, 0, 1, 0, -25)'
         }
@@ -271,14 +271,14 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           this.addGoodsOutTableRop(b);
           return
         }
-        if (b.info && b.info.goodsIn && b.info.goodsOut) {
+        if (b.info && b.classId === 5) {
           this.addGoodAllTable(b);
           return;
         }
-        if (b.info && b.info.goodsOut) {
+        if (b.info && b.classId === 2) {
           this.addGoodsOutTable(b);
         }
-        if (b.info && b.info.goodsIn) {
+        if (b.info && b.classId === 6) {
           this.addGoodInTable(b);
         }
       });
@@ -538,12 +538,19 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   addGoodAllTable(b: IBlock) {
-    if (!b.html && (b.info.goodsIn || b.info.goodsOut)) {
+    if (!b.html) {
       let data = this.renderer.createElement('div');
       this.renderer.addClass(data, 'goods-two');
       this.renderer.setStyle(data, 'left', `${b.x}px`);
       this.renderer.setStyle(data, 'top', `${b.y + 30}px`);
       this.renderer.setAttribute(data, 'id', `back${b.id}`);
+      if (b.info.name) {
+        let name = this.renderer.createElement('div');
+        this.renderer.addClass(name, 'name-in');
+        const text = this.renderer.createText(`${b.info.name}`);
+        this.renderer.appendChild(name, text);
+        this.renderer.appendChild(data, name);
+      }
       let left = this.renderer.createElement('div');
       this.renderer.addClass(left, 'left');
       let right = this.renderer.createElement('div');

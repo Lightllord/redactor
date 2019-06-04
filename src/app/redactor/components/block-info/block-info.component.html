@@ -91,12 +91,51 @@
 
     <!-- ПРОИЗВОДИТЕЛЬ -->
     <mat-card-content *ngIf="block.classId === 5" class="card-content f-stretching d-flex-column">
-      <div class="title">Товары на заказ</div>
+      <mat-card class="small-card" [formGroup]="formGroup">
+        <mat-card-title>Обслуживание</mat-card-title>
+        <mat-card-content>
+          <mat-form-field class="mr-2">
+            <input matInput placeholder="Стоимость" formControlName="costService">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Срок" formControlName="serviceTime">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+      <div class="title">Погрузчики</div>
+      <app-loaders [info]="block.info"></app-loaders>
+      <mat-card class="small-card" [formGroup]="formGroup">
+        <mat-card-title>Производство</mat-card-title>
+        <mat-card-content>
+          <mat-form-field class="full-width">
+            <mat-label>Тип</mat-label>
+            <mat-select formControlName="workType" placeholder="Тип">
+              <mat-option *ngFor="let t of workTypes" [value]="t">
+                {{t}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="mr-2">
+            <input matInput [placeholder]="('Длительность операции ({mtu})' | timeUnit)" formControlName="workDuration">
+          </mat-form-field>
+          <mat-form-field class="mr-2">
+            <input matInput placeholder="Стоимоть операции (р)" formControlName="workCost">
+          </mat-form-field>
+          <mat-form-field class="mr-2" *ngIf="formGroup.value && formGroup.value.workType === 'Прерываемое'">
+            <input matInput [placeholder]="('Длительность перезапуска ({mtu})' | timeUnit)"
+                   formControlName="workDurationRestart">
+          </mat-form-field>
+          <mat-form-field  class="mr-2" *ngIf="formGroup.value && formGroup.value.workType === 'Прерываемое'">
+            <input matInput formControlName="workCostRestart" placeholder="Стоимоть перезапуска (р)">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+      <div class="title">Входной поток</div>
       <app-goods-table [source]="block.info.goodsIn" (dataChanged)="goodsInChanges($event)"
-                       class="f-stretching"></app-goods-table>
-      <div class="title">Товары на продажу</div>
-      <app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsOutChanges($event)"
-                       class="f-stretching"></app-goods-table>
+                       class=""></app-goods-table>
+      <div class="title">Выходной поток</div>
+      <app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsInChanges($event)"
+                       class=""></app-goods-table>
     </mat-card-content>
 
     <!-- ДИСТРИБЬЮТЕР -->
@@ -117,11 +156,6 @@
       <div class="title">Товары</div>
       <app-dist-goods-table [source]="block.info.goodsOut"
                             (dataChanged)="goodsOutChanges($event)"></app-dist-goods-table>
-      <!--<app-goods-table [source]="block.info.goodsIn" (dataChanged)="goodsInChanges($event)"-->
-      <!--class="f-stretching"></app-goods-table>-->
-      <!--<div class="title">Товары на продажу</div>-->
-      <!--<app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsOutChanges($event)"-->
-      <!--class="f-stretching"></app-goods-table>-->
     </mat-card-content>
 
     <!-- УЗЛЫ -->

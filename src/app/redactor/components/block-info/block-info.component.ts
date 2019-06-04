@@ -31,10 +31,17 @@ export class BlockInfoComponent implements OnChanges {
       disp: null,
       rop: null,
       costService: null,
-      serviceTime: null
+      serviceTime: null,
+      workType: null,
+      workDuration: null,
+      workCost: null,
+      workCostRestart: null,
+      workDurationRestart: null
     });
     //this.block.info.containers
   }
+
+  workTypes = ['Постоянное', 'Прерываемое'];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.lookChange) {
