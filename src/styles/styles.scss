@@ -49,3 +49,17 @@ body {
   flex: 1 1 auto;
   min-height: 0;
 }
+
+.mr-2 {
+  margin-right: 8px;
+}
+
+
+.small-card {
+  padding: 6px;
+  margin-bottom: 8px;
+  .mat-card-title {
+    font-size: 17px;
+    margin-bottom: 2px;
+  }
+}

@@ -47,7 +47,7 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           fill: 'rgba(255,0,0,0.35)',
         },
         label: {
-          text: 'Поставщик - ' + block.id,
+          text: 'Поставщик',
           fill: 'black',
           transform: 'matrix(1, 0, 0, 1, 0, -25)'
         }
@@ -104,13 +104,13 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
       });
     }
     if (block.classId === 7) {
-      block.cell.resize(115, 88);
+      block.cell.resize(130, 88);
       block.cell.attr({
         body: {
           fill: 'rgba(255,255,255,0.35)'
         },
         label: {
-          text: 'Дистрибьютор - ' + block.id,
+          text: 'Дистрибьютор',
           fill: 'black',
           transform: 'matrix(1, 0, 0, 1, 0, -25)'
         }
@@ -263,8 +263,13 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
     if (this.blocks && this.blocks.length) {
       this.blocks.forEach(b => {
         this.processBlock(b);
-        if ((b.classId === 1 || b.classId === 3 || b.classId === 4 || b.classId === 7) && b.info) {
+        if ((b.classId === 1 || b.classId === 3 || b.classId === 4) && b.info) {
           this.addName(b);
+          return;
+        }
+        if (b.info && b.classId === 7) {
+          this.addGoodsOutTableRop(b);
+          return
         }
         if (b.info && b.info.goodsIn && b.info.goodsOut) {
           this.addGoodAllTable(b);
@@ -416,11 +421,14 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
       this.renderer.removeChild(this.paperView.nativeElement, e.html);
       e.html = null;
     }
-    if (e.classId === 1 || e.classId === 3 || e.classId === 4 || e.classId === 7) {
+    if (e.classId === 1 || e.classId === 3 || e.classId === 4) {
       this.addName(e);
     }
     if (e.classId === 2) {
       this.addGoodsOutTable(e);
+    }
+    if (e.classId === 7) {
+      this.addGoodsOutTableRop(e);
     }
     if (e.classId === 6) {
       this.addGoodInTable(e);
@@ -431,21 +439,68 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   addGoodsOutTable(b: IBlock) {
-    if (!b.html && b.info.goodsOut) {
+    if (!b.html) {
       let data = this.renderer.createElement('div');
       this.renderer.addClass(data, 'goods-one');
       this.renderer.setStyle(data, 'left', `${b.x}px`);
       this.renderer.setStyle(data, 'top', `${b.y + 30}px`);
       this.renderer.setAttribute(data, 'id', `back${b.id}`);
-      b.info.goodsOut.forEach(g => {
-        let row = this.renderer.createElement('div');
-        this.renderer.appendChild(data, row);
-        this.renderer.addClass(row, 'row');
-        const text = this.renderer.createText(`${g.product.name} - ${g.count}`);
-        this.renderer.appendChild(row, text);
-      });
-      b.html = data;
-      this.renderer.appendChild(this.paperView.nativeElement, data);
+      if (b.info.name) {
+        let name = this.renderer.createElement('div');
+        this.renderer.addClass(name, 'name-in');
+        const text = this.renderer.createText(`${b.info.name}`);
+        this.renderer.appendChild(name, text);
+        this.renderer.appendChild(data, name);
+      }
+      if (b.info.goodsOut) {
+        let tab = this.renderer.createElement('div');
+        this.renderer.addClass(tab, 'tab');
+        b.info.goodsOut.forEach(g => {
+          let row = this.renderer.createElement('div');
+          this.renderer.appendChild(tab, row);
+          this.renderer.addClass(row, 'row');
+          const text = this.renderer.createText(`${g.product.name} - ${g.pack.name}`);
+          this.renderer.appendChild(row, text);
+        });
+        this.renderer.appendChild(data, tab);
+      }
+      if (b.info.name || b.info.goodsOut) {
+        this.renderer.appendChild(this.paperView.nativeElement, data);
+        b.html = data;
+      }
+    }
+  }
+
+  addGoodsOutTableRop(b: IBlock) {
+    if (!b.html) {
+      let data = this.renderer.createElement('div');
+      this.renderer.addClass(data, 'goods-rop');
+      this.renderer.setStyle(data, 'left', `${b.x}px`);
+      this.renderer.setStyle(data, 'top', `${b.y + 30}px`);
+      this.renderer.setAttribute(data, 'id', `back${b.id}`);
+      if (b.info.name) {
+        let name = this.renderer.createElement('div');
+        this.renderer.addClass(name, 'name-in');
+        const text = this.renderer.createText(`${b.info.name}`);
+        this.renderer.appendChild(name, text);
+        this.renderer.appendChild(data, name);
+      }
+      if (b.info.goodsOut) {
+        let tab = this.renderer.createElement('div');
+        this.renderer.addClass(tab, 'tab');
+        b.info.goodsOut.forEach(g => {
+          let row = this.renderer.createElement('div');
+          this.renderer.appendChild(tab, row);
+          this.renderer.addClass(row, 'row');
+          const text = this.renderer.createText(`${g.product.name} - ${g.pack.name} - ${g.rop}`);
+          this.renderer.appendChild(row, text);
+        });
+        this.renderer.appendChild(data, tab);
+      }
+      if (b.info.name || b.info.goodsOut) {
+        this.renderer.appendChild(this.paperView.nativeElement, data);
+        b.html = data;
+      }
     }
   }
 
@@ -466,7 +521,6 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
       if (b.info.goodsIn) {
         let tab = this.renderer.createElement('div');
         this.renderer.addClass(tab, 'tab');
-
         b.info.goodsIn.forEach(g => {
           let row = this.renderer.createElement('div');
           this.renderer.appendChild(tab, row);
@@ -475,8 +529,10 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
           this.renderer.appendChild(row, text);
         });
         this.renderer.appendChild(data, tab);
-        b.html = data;
+      }
+      if (b.info.name || b.info.goodsIn) {
         this.renderer.appendChild(this.paperView.nativeElement, data);
+        b.html = data;
       }
     }
   }

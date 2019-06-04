@@ -40,7 +40,7 @@ export class BlocksService {
         goodsOut: [
           {
             product: {name: 'Вкусняхи'},
-            count: 1000
+            pack: {name: 'Крутая'}
           }
         ]
       }

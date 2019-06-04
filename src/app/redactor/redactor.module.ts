@@ -8,6 +8,10 @@ import {GoodsTableComponent} from './components/goods-table/goods-table.componen
 import {LinkInfoComponent} from './components/link-info/link-info.component';
 import {ParametersDialogComponent} from './components/parameters-dialog/parameters-dialog.component';
 import {ContainerDialogComponent} from './components/container-dialog/container-dialog.component';
+import { LoadersComponent } from './components/loaders/loaders.component';
+import { SenderGoodsTableComponent } from './components/sender-goods-table/sender-goods-table.component';
+import { SenderContainerDialogComponent } from './components/sender-container-dialog/sender-container-dialog.component';
+import { DistGoodsTableComponent } from './components/dist-goods-table/dist-goods-table.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,11 @@ import {ContainerDialogComponent} from './components/container-dialog/container-
     GoodsTableComponent,
     LinkInfoComponent,
     ParametersDialogComponent,
-    ContainerDialogComponent
+    ContainerDialogComponent,
+    LoadersComponent,
+    SenderGoodsTableComponent,
+    SenderContainerDialogComponent,
+    DistGoodsTableComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +33,8 @@ import {ContainerDialogComponent} from './components/container-dialog/container-
   ],
   entryComponents: [
     ParametersDialogComponent,
-    ContainerDialogComponent
+    ContainerDialogComponent,
+    SenderContainerDialogComponent
   ]
 })
 export class RedactorModule {

@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import {MatDialog} from '@angular/material';
 import {take} from 'rxjs/operators';
 import {ContainerDialogComponent} from '../container-dialog/container-dialog.component';
+import {SenderContainerDialogComponent} from '../sender-container-dialog/sender-container-dialog.component';
 
 @Component({
   selector: 'app-block-info',
@@ -17,6 +18,7 @@ export class BlockInfoComponent implements OnChanges {
   @Output() blockChanged = new EventEmitter();
   formGroup: FormGroup;
   lookChange: Subscription;
+  containers: any[] = [];
 
   get schedules(): FormArray {
     return this.formGroup.get('schedules') as FormArray;
@@ -27,8 +29,11 @@ export class BlockInfoComponent implements OnChanges {
       name: null,
       mat: null,
       disp: null,
-      rop: null
+      rop: null,
+      costService: null,
+      serviceTime: null
     });
+    //this.block.info.containers
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -38,6 +43,9 @@ export class BlockInfoComponent implements OnChanges {
     if (changes.block && this.block) {
       if (!this.block.info) {
         this.block.info = {};
+      }
+      if (this.block.info.containers) {
+        this.containers = this.block.info.containers;
       }
       this.formGroup.reset(this.block.info);
       if (this.block.classId === 1 || this.block.classId === 3 || this.block.classId === 4) {
@@ -57,9 +65,6 @@ export class BlockInfoComponent implements OnChanges {
   }
 
   save() {
-    // if (this.block.classId === 1 || this.block.classId === 3 || this.block.classId === 4) {
-    //   this.block.info = this.formGroup.value;
-    // }
     Object.assign(this.block.info, this.formGroup.value);
     this.blockChanged.next(this.block);
   }
@@ -135,6 +140,22 @@ export class BlockInfoComponent implements OnChanges {
           vls.containers = [res];
           this.schedules.get(`${schId}`).setValue(vls);
         }
+      }
+    });
+  }
+
+  delContainer(ind) {
+    this.containers.splice(ind, 1);
+    this.containers = [...this.containers];
+  }
+
+  addContainer() {
+    this.dialog.open(SenderContainerDialogComponent, {
+      width: '300px'
+    }).afterClosed().pipe(take(1)).subscribe(res => {
+      if (res && res.container && res.count) {
+        this.containers.push(res);
+        this.containers = [...this.containers];
       }
     });
   }

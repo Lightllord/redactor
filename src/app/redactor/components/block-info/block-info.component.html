@@ -2,40 +2,94 @@
   <mat-card class="full-height d-flex-column">
     <mat-card-title>
       <ng-container [ngSwitch]="block.classId">
-        <ng-container *ngSwitchCase="1">Вокзал</ng-container>
-        <ng-container *ngSwitchCase="2">Поставщик</ng-container>
-        <ng-container *ngSwitchCase="3">Аэропорт</ng-container>
-        <ng-container *ngSwitchCase="4">Порт</ng-container>
-        <ng-container *ngSwitchCase="5">Посрденик</ng-container>
-        <ng-container *ngSwitchCase="6">Потребитель</ng-container>
+        <h1 *ngSwitchCase="1">Вокзал</h1>
+        <h1 *ngSwitchCase="2">Поставщик</h1>
+        <h1 *ngSwitchCase="3">Аэропорт</h1>
+        <h1 *ngSwitchCase="4">Порт</h1>
+        <h1 *ngSwitchCase="5">Производитель</h1>
+        <h1 *ngSwitchCase="6">Потребитель</h1>
+        <h1 *ngSwitchCase="7">Дистрибьютор</h1>
       </ng-container>
+      <mat-form-field class="full-width name" [formGroup]="formGroup">
+        <input matInput placeholder="Наименование" name="Наименование" formControlName="name">
+      </mat-form-field>
+
     </mat-card-title>
+
+    <!-- ПОСТАВЩИК -->
     <mat-card-content *ngIf="block.classId === 2" class="card-content f-stretching d-flex-column">
-      <div class="title">Товары на продажу</div>
-      <app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsOutChanges($event)"
-                       class="f-stretching"></app-goods-table>
+      <mat-card class="small-card" [formGroup]="formGroup">
+        <mat-card-title>Обслуживание</mat-card-title>
+        <mat-card-content>
+          <mat-form-field class="mr-2">
+            <input matInput placeholder="Стоимость" formControlName="costService">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Срок" formControlName="serviceTime">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+      <div class="title">Товары для реализации</div>
+      <app-sender-goods-table [source]="block.info.goodsOut"
+                              (dataChanged)="goodsOutChanges($event)"></app-sender-goods-table>
+      <div class="title">Погрузчики</div>
+      <app-loaders [info]="block.info"></app-loaders>
+      <mat-card>
+        <mat-card-title style="font-size: 19px">Контейнеры</mat-card-title>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item style="font-size: 12px" *ngFor="let c of containers; let ind = index">
+              <b>{{c.container.name}}</b>, кол-во: {{c.count}}
+              <button mat-button color="warn" (click)="delContainer(ind)"><i class="material-icons">clear</i></button>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+        <mat-card-footer class="d-flex-row justify-content-end">
+          <button mat-button (click)="addContainer()">+</button>
+        </mat-card-footer>
+      </mat-card>
     </mat-card-content>
 
+    <!-- ПОТРЕБИТЕЛЬ -->
     <mat-card-content *ngIf="block.classId === 6" class="card-content f-stretching d-flex-column">
       <div class="" [formGroup]="formGroup">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Наименование" name="Наименование" formControlName="name">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Точка заказа" name="Точка заказа (%)" type="number" formControlName="rop">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Спрос (мат. ожидание)" name="Мат. ожидание" formControlName="mat">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Спрос (дисперсия)" name="Дисперсия" formControlName="disp">
-        </mat-form-field>
+        <!--<mat-form-field class="full-width">-->
+        <!--<input matInput placeholder="Наименование" name="Наименование" formControlName="name">-->
+        <!--</mat-form-field>-->
+        <mat-card class="small-card">
+          <mat-card-title>Обслуживание</mat-card-title>
+          <mat-card-content>
+            <mat-form-field class="mr-2">
+              <input matInput placeholder="Стоимость" formControlName="costService">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Срок" formControlName="serviceTime">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="small-card">
+          <mat-card-title>Параметры</mat-card-title>
+          <mat-card-content>
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Точка заказа (%)" name="Точка заказа" type="number" formControlName="rop">
+            </mat-form-field>
+            <mat-form-field class="mr-2">
+              <input matInput placeholder="Спрос (мат. ожидание)" name="Мат. ожидание" formControlName="mat">
+            </mat-form-field>
+            <mat-form-field class="mr-2">
+              <input matInput placeholder="Спрос (дисперсия)" name="Дисперсия" formControlName="disp">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
       </div>
       <div class="title">Товары на заказ</div>
       <app-goods-table [source]="block.info.goodsIn" (dataChanged)="goodsInChanges($event)"
-                       class="f-stretching"></app-goods-table>
+                       class=""></app-goods-table>
+      <div class="title">Погрузчики</div>
+      <app-loaders [info]="block.info"></app-loaders>
     </mat-card-content>
 
+    <!-- ПРОИЗВОДИТЕЛЬ -->
     <mat-card-content *ngIf="block.classId === 5" class="card-content f-stretching d-flex-column">
       <div class="title">Товары на заказ</div>
       <app-goods-table [source]="block.info.goodsIn" (dataChanged)="goodsInChanges($event)"
@@ -44,12 +98,36 @@
       <app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsOutChanges($event)"
                        class="f-stretching"></app-goods-table>
     </mat-card-content>
+
+    <!-- ДИСТРИБЬЮТЕР -->
+    <mat-card-content *ngIf="block.classId === 7" class="card-content f-stretching d-flex-column">
+      <mat-card class="small-card" [formGroup]="formGroup">
+        <mat-card-title>Обслуживание</mat-card-title>
+        <mat-card-content>
+          <mat-form-field class="mr-2">
+            <input matInput placeholder="Стоимость" formControlName="costService">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Срок" formControlName="serviceTime">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+      <div class="title">Погрузчики</div>
+      <app-loaders [info]="block.info"></app-loaders>
+      <div class="title">Товары</div>
+      <app-dist-goods-table [source]="block.info.goodsOut"
+                            (dataChanged)="goodsOutChanges($event)"></app-dist-goods-table>
+      <!--<app-goods-table [source]="block.info.goodsIn" (dataChanged)="goodsInChanges($event)"-->
+      <!--class="f-stretching"></app-goods-table>-->
+      <!--<div class="title">Товары на продажу</div>-->
+      <!--<app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsOutChanges($event)"-->
+      <!--class="f-stretching"></app-goods-table>-->
+    </mat-card-content>
+
+    <!-- УЗЛЫ -->
     <mat-card-content *ngIf="block.classId === 1 || block.classId === 3 || block.classId === 4"
                       class="card-content f-stretching d-flex-column">
       <div class="" [formGroup]="formGroup">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Наименование" name="Наименование" formControlName="name">
-        </mat-form-field>
         <ng-container *ngIf="schedules && schedules.controls && schedules.controls.length">
           <h1 style="margin: 2px 0; font-size: 20px">Расписание</h1>
           <ng-container formArrayName="schedules">
@@ -78,9 +156,11 @@
                   <mat-card-content>
                     <mat-list *ngIf="schedules.get('' + i) && schedules.get('' + i).value &&
                     schedules.get('' + i).value.containers">
-                      <mat-list-item  style="font-size: 12px" *ngFor="let c of schedules.get('' + i).value.containers; let ind = index">
+                      <mat-list-item style="font-size: 12px"
+                                     *ngFor="let c of schedules.get('' + i).value.containers; let ind = index">
                         <b>{{c.container.name}}</b>, кол-во: {{c.count}}, стоимость: {{c.price}}
-                        <button mat-button color="warn" (click)="delPack(i, ind)"><i class="material-icons">clear</i></button>
+                        <button mat-button color="warn" (click)="delPack(i, ind)"><i class="material-icons">clear</i>
+                        </button>
                       </mat-list-item>
                     </mat-list>
                   </mat-card-content>

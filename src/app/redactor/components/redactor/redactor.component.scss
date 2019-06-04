@@ -60,11 +60,10 @@
 .goods-one {
   width: 115px;
   height: 58px;
-  //z-index: -1;
   font-size: 11px;
   position: absolute;
   .tab {
-    padding: 2px;
+    padding: 0 2px;
     overflow-y: auto;
     height: 41px;
   }
@@ -73,6 +72,29 @@
   }
   .name-in {
     width: 115px;
+    height: 17px;
+    padding: 2px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: 600;
+  }
+}
+
+.goods-rop {
+  width: 130px;
+  height: 58px;
+  font-size: 11px;
+  position: absolute;
+  .tab {
+    padding: 0 2px;
+    overflow-y: auto;
+    height: 41px;
+  }
+  .row {
+    border-top: 1px dotted black;
+  }
+  .name-in {
+    width: 130px;
     height: 17px;
     padding: 2px;
     font-size: 12px;
