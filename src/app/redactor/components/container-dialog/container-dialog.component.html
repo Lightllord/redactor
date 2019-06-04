@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Добавить контейнер</h1>
+<div mat-dialog-content>
+  <div class="" [formGroup]="group">
+    <mat-form-field class="full-width">
+      <mat-select [formControlName]="'container'" [compareWith]="contComp"
+                  [placeholder]="'Контейнер'">
+        <mat-option *ngFor="let o of ds.getDictVals('containers')" [value]="o">
+          {{o.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput [placeholder]="'Количество'" type="number" formControlName="count">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput [placeholder]="'Цена за единицу (р)'" type="text" formControlName="price">
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Отменить</button>
+  <button mat-button (click)="save()" cdkFocusInitial>Сохранить</button>
+</div>
