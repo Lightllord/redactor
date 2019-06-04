@@ -161,6 +161,32 @@ export class BlocksService {
       b.html = null;
       return b;
     });
-    this.links = [...ls];
+    this.links = ls.map(l => {
+      l.cell = null;
+      return l;
+    });
+  }
+
+  download() {
+    this.save(this.blocks, this.links);
+    let content = {
+      blocks: this.blocks,
+      links: this.links
+    };
+    content.blocks.forEach(b => {
+      if (b.info && b.info.schedules) {
+        b.info.schedules.forEach(s => {
+          if (s.blockTo && s.blockTo.info) {
+            s.blockTo.info.schedules = null;
+          }
+        });
+      }
+    });
+    console.log(content);
+    let a = document.createElement('a');
+    let file = new Blob([JSON.stringify(content)], {type: 'application/json'});
+    a.href = URL.createObjectURL(file);
+    a.download = 'scheme.json';
+    a.click();
   }
 }

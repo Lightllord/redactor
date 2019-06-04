@@ -599,4 +599,8 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
       this.renderer.setStyle(b.html, 'top', `${b.y + 30}px`);
     }
   }
+
+  downloadScheme() {
+    this.bs.download();
+  }
 }
