@@ -601,6 +601,18 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   downloadScheme() {
+    this.selectedLink = null;
+    this.selectedBlock = null;
+    this.graph.clear();
+    this.blocks.forEach(b => {
+      if (b.html) {
+        this.renderer.removeChild(this.paperView.nativeElement, b.html);
+      }
+    });
     this.bs.download();
+    this.blocks = this.bs.blocks;
+    this.links = this.bs.links;
+    this.processAllBlocks();
+    this.processAllLinks();
   }
 }
