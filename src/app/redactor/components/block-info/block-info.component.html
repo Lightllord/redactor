@@ -34,7 +34,7 @@
                               (dataChanged)="goodsOutChanges($event)"></app-sender-goods-table>
       <div class="title">Погрузчики</div>
       <app-loaders [info]="block.info"></app-loaders>
-      <mat-card>
+      <mat-card style="margin-bottom: 6px;">
         <mat-card-title style="font-size: 19px">Контейнеры</mat-card-title>
         <mat-card-content>
           <mat-list>
@@ -48,6 +48,8 @@
           <button mat-button (click)="addContainer()">+</button>
         </mat-card-footer>
       </mat-card>
+      <div class="title">Транспортный парк</div>
+      <app-transport-park [source]="block.info.transports" (dataChanged)="transports($event)"></app-transport-park>
     </mat-card-content>
 
     <!-- ПОТРЕБИТЕЛЬ -->
@@ -136,6 +138,8 @@
       <div class="title">Выходной поток</div>
       <app-goods-table [source]="block.info.goodsOut" (dataChanged)="goodsOutChanges($event)"
                        class=""></app-goods-table>
+      <div class="title">Транспортный парк</div>
+      <app-transport-park [source]="block.info.transports" (dataChanged)="transports($event)"></app-transport-park>
     </mat-card-content>
 
     <!-- ДИСТРИБЬЮТЕР -->
@@ -156,6 +160,8 @@
       <div class="title">Товары</div>
       <app-dist-goods-table [source]="block.info.goodsOut"
                             (dataChanged)="goodsOutChanges($event)"></app-dist-goods-table>
+      <div class="title">Транспортный парк</div>
+      <app-transport-park [source]="block.info.transports" (dataChanged)="transports($event)"></app-transport-park>
     </mat-card-content>
 
     <!-- УЗЛЫ -->

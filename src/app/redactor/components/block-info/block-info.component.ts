@@ -170,4 +170,9 @@ export class BlockInfoComponent implements OnChanges {
       }
     });
   }
+
+  transports(e) {
+    this.block.info.transports = e;
+    // this.blockChanged.next(this.block);
+  }
 }
