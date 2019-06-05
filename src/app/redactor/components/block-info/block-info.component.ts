@@ -78,6 +78,10 @@ export class BlockInfoComponent implements OnChanges {
 
   makeSchedule() {
     let existed = this.block.info.schedules || [];
+    existed = existed.map(e => {
+      e.blockTo = this.bs.blocks.find(b => b.id === e.blockTo.id);
+      return e;
+    });
     let connected = [];
     this.bs.links.forEach(l => {
       if (l.from === this.block.id) {
