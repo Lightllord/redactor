@@ -46,7 +46,12 @@
 
 <div class="" *ngIf="selectedRow">
   <mat-form-field class="full-width">
-    <input matInput placeholder="Наименование" name="name" [(ngModel)]="name">
+    <mat-label>Товар</mat-label>
+    <mat-select [(ngModel)]="product" placeholder="Товар" name="Товар">
+      <mat-option *ngFor="let g of goods" [value]="g">
+        {{g.name}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field class="full-width">

@@ -56,7 +56,7 @@ export class GoodsTableComponent implements OnChanges, OnInit {
 
   change() {
     if (this.name && this.count) {
-      this.selectedRow.name = this.name;
+      this.selectedRow.product = this.product;
       this.selectedRow.count = this.count;
       this.source = [...this.source];
       this.name = null;
