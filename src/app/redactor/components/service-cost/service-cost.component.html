@@ -1,0 +1,8 @@
+<mat-checkbox name="service" [(ngModel)]="info.serviceCost.service">Затраты на обслуживание</mat-checkbox>
+<mat-checkbox name="lossOfSpoiling" [(ngModel)]="info.serviceCost.lossOfSpoiling">Потеря прибыли из-за порчи
+</mat-checkbox>
+<mat-checkbox name="lossOfDeficit" [(ngModel)]="info.serviceCost.lossOfDeficit"> Потеря прибыли из-за дефицита
+</mat-checkbox>
+<mat-checkbox *ngIf="type === 'consumer'" name="income" [(ngModel)]="info.serviceCost.income">Доход от продажи товара
+</mat-checkbox>
+

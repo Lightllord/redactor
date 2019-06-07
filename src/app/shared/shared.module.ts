@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatButtonModule,
-  MatCardModule,
+  MatCardModule, MatCheckboxModule,
   MatDialogModule,
   MatInputModule,
   MatListModule,
@@ -30,7 +30,8 @@ import {TimeUnitPipe} from '../dictionaries/pipes/time-unit.pipe';
     MatInputModule,
     MatSelectModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule
   ],
   exports: [
     CommonModule,
@@ -44,7 +45,8 @@ import {TimeUnitPipe} from '../dictionaries/pipes/time-unit.pipe';
     MatSelectModule,
     MatListModule,
     MatDialogModule,
-    TimeUnitPipe
+    TimeUnitPipe,
+    MatCheckboxModule
   ]
 })
 export class SharedModule {

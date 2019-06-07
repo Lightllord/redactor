@@ -89,6 +89,8 @@
                        class=""></app-goods-table>
       <div class="title">Погрузчики</div>
       <app-loaders [info]="block.info"></app-loaders>
+      <div class="title">Оптимизационные задачи</div>
+      <app-service-cost [info]="block.info" type="consumer"></app-service-cost>
     </mat-card-content>
 
     <!-- ПРОИЗВОДИТЕЛЬ -->
@@ -140,6 +142,8 @@
                        class=""></app-goods-table>
       <div class="title">Транспортный парк</div>
       <app-transport-park [source]="block.info.transports" (dataChanged)="transports($event)"></app-transport-park>
+      <div class="title">Оптимизационные задачи</div>
+      <app-service-cost [info]="block.info"></app-service-cost>
     </mat-card-content>
 
     <!-- ДИСТРИБЬЮТЕР -->
@@ -162,6 +166,8 @@
                             (dataChanged)="goodsOutChanges($event)"></app-dist-goods-table>
       <div class="title">Транспортный парк</div>
       <app-transport-park [source]="block.info.transports" (dataChanged)="transports($event)"></app-transport-park>
+      <div class="title">Оптимизационные задачи</div>
+      <app-service-cost [info]="block.info"></app-service-cost>
     </mat-card-content>
 
     <!-- УЗЛЫ -->

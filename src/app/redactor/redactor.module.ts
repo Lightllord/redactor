@@ -13,6 +13,7 @@ import {SenderGoodsTableComponent} from './components/sender-goods-table/sender-
 import {SenderContainerDialogComponent} from './components/sender-container-dialog/sender-container-dialog.component';
 import {DistGoodsTableComponent} from './components/dist-goods-table/dist-goods-table.component';
 import { TransportParkComponent } from './components/transport-park/transport-park.component';
+import { ServiceCostComponent } from './components/service-cost/service-cost.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { TransportParkComponent } from './components/transport-park/transport-pa
     SenderGoodsTableComponent,
     SenderContainerDialogComponent,
     DistGoodsTableComponent,
-    TransportParkComponent
+    TransportParkComponent,
+    ServiceCostComponent
   ],
   imports: [
     CommonModule,
