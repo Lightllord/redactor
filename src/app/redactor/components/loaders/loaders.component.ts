@@ -15,9 +15,13 @@ export class LoadersComponent implements OnChanges {
     if (!this.info.loaders) {
       this.info.loaders = {
         avia: null,
+        aviaDuration: null,
         zd: null,
+        zdDuration: null,
         avto: null,
-        sudo: null
+        avtoDuration: null,
+        sudo: null,
+        sudoDuration: null
       };
     }
   }
