@@ -633,7 +633,8 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
       let reader = new FileReader();
       reader.readAsText(file);
       reader.onload = ev => {
-        let object = JSON.parse(reader.result);
+        let text = reader.result as string;
+        let object = JSON.parse(text);
         this.blocks = object.blocks || [];
         this.links = object.links || [];
         this.processAllBlocks();
