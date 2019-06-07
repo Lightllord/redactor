@@ -394,22 +394,6 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
-  save() {
-    this.selectedLink = null;
-    this.selectedBlock = null;
-    this.graph.clear();
-    this.blocks.forEach(b => {
-      if (b.html) {
-        this.renderer.removeChild(this.paperView.nativeElement, b.html);
-      }
-    });
-    this.bs.save(this.blocks, this.links);
-    this.blocks = this.bs.blocks;
-    this.links = this.bs.links;
-    this.processAllBlocks();
-    this.processAllLinks();
-  }
-
   settings() {
     const dialogRef = this.dialog.open(ParametersDialogComponent, {
       width: '300px'
@@ -600,6 +584,22 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  save() {
+    this.selectedLink = null;
+    this.selectedBlock = null;
+    this.graph.clear();
+    this.blocks.forEach(b => {
+      if (b.html) {
+        this.renderer.removeChild(this.paperView.nativeElement, b.html);
+      }
+    });
+    this.bs.save(this.blocks, this.links);
+    this.blocks = this.bs.blocks;
+    this.links = this.bs.links;
+    this.processAllBlocks();
+    this.processAllLinks();
+  }
+
   downloadScheme() {
     this.selectedLink = null;
     this.selectedBlock = null;
@@ -614,5 +614,31 @@ export class RedactorComponent implements AfterViewInit, OnInit, OnDestroy {
     this.links = this.bs.links;
     this.processAllBlocks();
     this.processAllLinks();
+  }
+
+  @ViewChild('loader') loader;
+  loadScheme() {
+    let file = this.loader.nativeElement.files[0];
+    if (file.type === 'application/json') {
+
+      this.selectedLink = null;
+      this.selectedBlock = null;
+      this.graph.clear();
+      this.blocks.forEach(b => {
+        if (b.html) {
+          this.renderer.removeChild(this.paperView.nativeElement, b.html);
+        }
+      });
+
+      let reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = ev => {
+        let object = JSON.parse(reader.result);
+        this.blocks = object.blocks || [];
+        this.links = object.links || [];
+        this.processAllBlocks();
+        this.processAllLinks();
+      };
+    }
   }
 }
